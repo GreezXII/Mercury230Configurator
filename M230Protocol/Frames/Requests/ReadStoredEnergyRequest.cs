@@ -42,7 +42,7 @@ namespace M230Protocol.Frames.Requests
         public Rates Rate { get; private set; }
         public ReadStoredEnergyRequest(byte addr, EnergyDataTypes energyDataType, Months month, Rates rate) : base(addr)
         {
-            RequestType = RequestTypes.ReadArray;
+            c = RequestTypes.ReadArray;
             EnergyDataType = energyDataType;
             Month = month;
             Rate = rate;
@@ -60,7 +60,7 @@ namespace M230Protocol.Frames.Requests
 
         public override byte[] Create()
         {
-            byte[] body = new byte[] { Address, CombineMonthAndEnergyDataArray(EnergyDataType, Month), (byte)Rate };
+            byte[] body = new byte[] { Address, (byte)RequestType, CombineMonthAndEnergyDataArray(EnergyDataType, Month), (byte)Rate };
             return AddCRC(body);
         }
     }
