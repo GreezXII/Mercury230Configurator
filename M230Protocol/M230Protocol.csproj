@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Frames\Responses\" />
-    <Folder Include="Frames\Requests\" />
   </ItemGroup>
 
 </Project>

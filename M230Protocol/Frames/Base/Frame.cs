@@ -29,7 +29,29 @@ namespace M230Protocol.Frames.Base
             Length = 3;
         }
 
-        internal byte[] CalculateCRC16Modbus(byte[] buffer)
+        protected byte[] AddCRC(byte[] body)
+        {
+            byte[] CRC = CalculateCRC16Modbus(body);
+            byte[] result = new byte[body.Length + CRC.Length];
+            body.CopyTo(result, 0);
+            CRC.CopyTo(result, body.Length);
+            return result;
+        }
+
+        public static bool CRCMatch(byte[] a, byte[] b)
+        {
+            if (a == null || b == null)
+                return false;
+            if (a.Length != b.Length)
+                return false;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] != b[i])
+                    return false;
+
+            return true;
+        }
+
+        private byte[] CalculateCRC16Modbus(byte[] buffer)
         {
             ushort crc = 0xFFFF;
             for (int pos = 0; pos < buffer.Length; pos++)
@@ -48,19 +70,6 @@ namespace M230Protocol.Frames.Base
             }
             CRC = BitConverter.GetBytes(crc);
             return CRC;
-        }
-
-        public static bool CRCMatch(byte[] a, byte[] b)
-        {
-            if (a == null || b == null)
-                return false;
-            if (a.Length != b.Length)
-                return false;
-            for (int i = 0; i < a.Length; i++)
-                if (a[i] != b[i])
-                    return false;
-
-            return true;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace M230Protocol.Frames.Base
      */
     abstract class Request : Frame
     {
-        protected enum RequestTypes : byte
+        public enum RequestTypes : byte
         {
             TestConnection = 0x00,  // Test link
             OpenConnection = 0x01,  // Open connection
@@ -32,7 +32,7 @@ namespace M230Protocol.Frames.Base
             WriteSettings = 0x03,   // Write settings
         }
 
-        public byte RequestType { get; protected set; }
+        public RequestTypes RequestType { get; protected set; }
         public int ResponseLength { get; protected set; }  //TOD: What is response length? Write docs for response length
 
         public Request(byte addr)
@@ -43,7 +43,7 @@ namespace M230Protocol.Frames.Base
         }
         public abstract byte[] Create();
 
-        internal byte[] StringToBCD(string s)  // BCD - Binary-coded decimal
+        internal byte[] StringToBCD(string s)  // BCD - Binary-coded decimal TODO: Use .net built in function
         {
             byte[] bytePassword = new byte[s.Length];
             for (int i = 0; i < s.Length; i++)
