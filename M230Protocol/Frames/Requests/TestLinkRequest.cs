@@ -13,6 +13,7 @@ namespace M230Protocol.Frames.Requests
         public override byte[] Create()
         {
             byte[] body = new byte[] { Address, (byte)RequestType };
+            Length = body.Length;
             return AddCRC(body);
         }
     }

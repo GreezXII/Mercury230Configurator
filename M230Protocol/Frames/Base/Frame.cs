@@ -18,7 +18,7 @@ namespace M230Protocol.Frames.Base
     class Frame
     {
         public byte Address { get; protected set; }
-        public byte[] CRC { get; protected set; }
+        public byte[]? CRC { get; protected set; }
         public int Length { get; protected set; }
 
         public Frame() { }
