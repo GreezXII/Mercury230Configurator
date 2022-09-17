@@ -17,7 +17,6 @@ namespace M230Protocol.Frames.Requests
             RequestType = RequestTypes.OpenConnection;
             AccessLevel = (byte)accLvl;
             Password = StringToBCD(pwd);
-            Length += 1 + Password.Length;
         }
 
         public override byte[] Create()
