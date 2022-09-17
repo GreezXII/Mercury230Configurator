@@ -41,7 +41,12 @@ namespace M230Protocol.Frames.Base
             Length += 1;
             ResponseLength = 4;
         }
-        public abstract byte[] Create();
+        public virtual byte[] Create()
+        {
+            byte[] body = new byte[] { Address, (byte)RequestType };
+            Length = body.Length;
+            return AddCRC(body);
+        }
 
         internal byte[] StringToBCD(string s)  // BCD - Binary-coded decimal TODO: Use .net built in function
         {

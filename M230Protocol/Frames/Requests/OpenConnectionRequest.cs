@@ -12,8 +12,7 @@ namespace M230Protocol.Frames.Requests
 
         public byte AccessLevel { get; private set; }
         public byte[] Password { get; private set; }
-        public OpenConnectionRequest(byte addr, MeterAccessLevels accLvl, string pwd)
-            : base(addr)
+        public OpenConnectionRequest(byte addr, MeterAccessLevels accLvl, string pwd) : base(addr)
         {
             RequestType = RequestTypes.OpenConnection;
             AccessLevel = (byte)accLvl;
