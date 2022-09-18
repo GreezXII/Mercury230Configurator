@@ -4,8 +4,8 @@ namespace M230Protocol.Frames.Base
 {
     class Response : Frame
     {
-        public int Length { get; protected set; }
         public byte[] Body { get; private set; }
+
         public Response(byte[] response)
         {
             Address = response[0];
@@ -26,14 +26,14 @@ namespace M230Protocol.Frames.Base
         //    byte[] CRCval = CalculateCRC16Modbus(buffer);
         //    return CRCMatch(CRC, CRCval);
         //}
-        internal int FullHexToInt(byte[] buffer)
+        protected int FullHexToInt(byte[] buffer)
         {
             string hex = "";
             for (int i = 0; i < buffer.Length; i++)
                 hex += ByteToHexString(buffer[i]);
             return Convert.ToInt32(hex, 16);
         }
-        internal int BiwiseBytesToInt(byte[] buffer)
+        protected int BiwiseBytesToInt(byte[] buffer)
         {
             int result = buffer[0];
             for (int i = 1; i < buffer.Length; i++)
@@ -43,17 +43,28 @@ namespace M230Protocol.Frames.Base
             }
             return result;
         }
-        internal string ByteToHexString(byte b)
+        protected string ByteToHexString(byte b)
         {
             string hex = Convert.ToString(b, 16);
             if (hex.Length == 1)
                 hex = "0" + hex;
             return hex;
         }
-        internal byte ByteToHexByte(byte b)
+        protected byte ByteToHexByte(byte b)
         {
             string hex = ByteToHexString(b);
             return byte.Parse(hex);
+        }
+        protected double GetEnergyValue(byte[] array)
+        {
+            // Изменить порядок байт согласно документации
+            byte[] buffer = new byte[array.Length];
+            buffer[0] = array[1];
+            buffer[1] = array[0];
+            buffer[2] = array[3];
+            buffer[3] = array[2];
+
+            return FullHexToInt(buffer) / 1000.0d;
         }
     }
 }

@@ -4,6 +4,7 @@ namespace M230Protocol.Frames.Responses
 {
     class SerialNumberAndReleaseDateResponse : Response
     {
+        public const int Length = 10;
         public int SerialNumber { get; private set; }
         public DateTime ReleaseDate { get; private set; }
         public SerialNumberAndReleaseDateResponse(byte[] response) : base(response)

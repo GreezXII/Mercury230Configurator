@@ -4,6 +4,7 @@ namespace M230Protocol.Frames.Responses
 {
     internal class CommunicationStateResponse : Response
     {
+        public const int Length = 4;
         public enum CommunicationState : byte
         {
             OK,
@@ -16,7 +17,6 @@ namespace M230Protocol.Frames.Responses
         public CommunicationState State { get; private set; }
         public CommunicationStateResponse(byte[] response) : base(response)
         {
-            Length = 2;
             State = (CommunicationState)response[1];
         }
     }
