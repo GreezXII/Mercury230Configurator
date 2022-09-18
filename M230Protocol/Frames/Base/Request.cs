@@ -33,18 +33,11 @@ namespace M230Protocol.Frames.Base
         }
 
         public RequestTypes RequestType { get; protected set; }
-        public int ResponseLength { get; protected set; }  //TOD: What is response length? Write docs for response length
+        public Request(byte addr) : base(addr) { }
 
-        public Request(byte addr)
-            : base(addr)
-        {
-            Length += 1;
-            ResponseLength = 4;
-        }
         public virtual byte[] Create()
         {
             byte[] body = new byte[] { Address, (byte)RequestType };
-            Length = body.Length;
             return AddCRC(body);
         }
 
