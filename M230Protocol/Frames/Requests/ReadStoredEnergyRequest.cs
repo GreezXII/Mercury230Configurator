@@ -42,16 +42,12 @@ namespace M230Protocol.Frames.Requests
         public Rates Rate { get; private set; }
         public ReadStoredEnergyRequest(byte addr, EnergyDataTypes energyDataType, Months month, Rates rate) : base(addr)
         {
-            c = RequestTypes.ReadArray;
+            RequestType = RequestTypes.ReadArray;
             EnergyDataType = energyDataType;
             Month = month;
             Rate = rate;
-            //if (dataArray == EnergyDataArrays.PerPhase)  // TODO: Delete ResponseLength?
-            //    ResponseLength = 15;
-            //else
-            //    ResponseLength = 19;
         }
-        private byte CombineMonthAndEnergyDataArray(EnergyDataTypes energyDataType, Months month)  // TODO: Docs
+        private byte CombineMonthAndEnergyDataArray(EnergyDataTypes energyDataType, Months month)
         {
 
             byte result = (byte)((byte)energyDataType << 4);

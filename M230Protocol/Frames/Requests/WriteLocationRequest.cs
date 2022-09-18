@@ -15,7 +15,6 @@ namespace M230Protocol.Frames.Requests
             ParameterNumber = 0x22;
             location = location.PadRight(4, ' ');
             Location = Encoding.ASCII.GetBytes(location);
-            //Pattern.AddRange(new string[] { "ParameterNumber", "Location" });
         }
         public override byte[] Create()
         {

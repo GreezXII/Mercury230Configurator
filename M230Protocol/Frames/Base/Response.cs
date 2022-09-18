@@ -4,6 +4,7 @@ namespace M230Protocol.Frames.Base
 {
     class Response : Frame
     {
+        public static int Length;
         public byte[] Body { get; private set; }
         public Response(byte[] response)
         {

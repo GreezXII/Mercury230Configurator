@@ -22,8 +22,6 @@ namespace M230Protocol.Frames.Requests
             RequestType = RequestTypes.ReadJournal;
             JournalNumber = (byte)journal;
             RecordNumber = recordNumber;
-            //Pattern.AddRange(new string[] { "JournalNumber", "RecordNumber" });
-            //ResponseLength = 9; // TODO: Delete Response Length?
         }
 
         public override byte[] Create()

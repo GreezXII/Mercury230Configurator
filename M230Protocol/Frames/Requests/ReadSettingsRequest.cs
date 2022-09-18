@@ -17,14 +17,6 @@ namespace M230Protocol.Frames.Requests
             RequestType = RequestTypes.ReadSettings;
             SettingType = (byte)settings;
             Parameters = parameters;
-            //Pattern.AddRange(new string[] { "SettingNumber", "Parameters" });
-            
-            //if (settings == Settings.SerialNumberAndReleaseDate)  // TODO: Delete Response length?
-            //    ResponseLength = 10;
-            //else if (settings == Settings.SoftwareVersion)
-            //    ResponseLength = 6;
-            //else
-            //    ResponseLength = 7;
         }
 
         public override byte[] Create()

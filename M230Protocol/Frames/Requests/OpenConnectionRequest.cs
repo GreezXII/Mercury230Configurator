@@ -24,7 +24,6 @@ namespace M230Protocol.Frames.Requests
             List<byte> body = new() { Address, (byte)RequestType, AccessLevel };
             body.AddRange(Password);
             byte[] buffer = body.ToArray();
-            Length = buffer.Length;
             return AddCRC(buffer);
         }
     }

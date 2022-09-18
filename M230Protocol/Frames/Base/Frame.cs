@@ -19,15 +19,10 @@ namespace M230Protocol.Frames.Base
     {
         public byte Address { get; protected set; }
         public byte[]? CRC { get; protected set; }
-        public int Length { get; protected set; }
 
         public Frame() { }
 
-        public Frame(byte addr)
-        {
-            Address = addr;
-            Length = 3;
-        }
+        public Frame(byte address) => Address = address;
 
         protected byte[] AddCRC(byte[] body)
         {
