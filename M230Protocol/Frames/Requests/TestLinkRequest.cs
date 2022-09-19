@@ -8,5 +8,10 @@ namespace M230Protocol.Frames.Requests
         {
             RequestType = RequestTypes.TestConnection;
         }
+        public byte[] Create()
+        {
+            List<byte> requestBody = new() { (byte)RequestType };
+            return CreateByteArray(requestBody);
+        }
     }
 }

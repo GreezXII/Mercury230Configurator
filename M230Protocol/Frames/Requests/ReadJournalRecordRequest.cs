@@ -24,10 +24,10 @@ namespace M230Protocol.Frames.Requests
             RecordNumber = recordNumber;
         }
 
-        public override byte[] Create()
+        public byte[] Create()
         {
-            byte[] body = new byte[] { Address, (byte)RequestType, JournalNumber, RecordNumber };
-            return AddCRC(body);
+            List<byte> requestBody = new() { (byte)RequestType, JournalNumber, RecordNumber };
+            return CreateByteArray(requestBody);
         }
     }
 }

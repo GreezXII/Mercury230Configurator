@@ -54,10 +54,10 @@ namespace M230Protocol.Frames.Requests
             return (byte)(result | (byte)month);
         }
 
-        public override byte[] Create()
+        public byte[] Create()
         {
-            byte[] body = new byte[] { Address, (byte)RequestType, CombineMonthAndEnergyDataArray(EnergyDataType, Month), (byte)Rate };
-            return AddCRC(body);
+            List<byte> requestBody = new() { (byte)RequestType, CombineMonthAndEnergyDataArray(EnergyDataType, Month), (byte)Rate };
+            return CreateByteArray(requestBody);
         }
     }
 }

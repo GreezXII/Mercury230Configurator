@@ -16,11 +16,11 @@ namespace M230Protocol.Frames.Requests
             location = location.PadRight(4, ' ');
             Location = Encoding.ASCII.GetBytes(location);
         }
-        public override byte[] Create()
+        public byte[] Create()
         {
-            List<byte> body = new() { Address, (byte)RequestType, ParameterNumber };
-            body.AddRange(Location);
-            return AddCRC(body.ToArray());
+            List<byte> requestBody = new() { (byte)RequestType, ParameterNumber };
+            requestBody.AddRange(Location);
+            return CreateByteArray(requestBody);
         }
     }
 }

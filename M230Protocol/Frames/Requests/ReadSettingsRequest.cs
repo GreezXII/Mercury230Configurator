@@ -19,11 +19,11 @@ namespace M230Protocol.Frames.Requests
             Parameters = parameters;
         }
 
-        public override byte[] Create()
+        public byte[] Create()
         {
-            List<byte> body = new() { Address, (byte)RequestType, SettingType };
-            body.AddRange(Parameters);
-            return AddCRC(body.ToArray());
+            List<byte> requestBody = new() { (byte)RequestType, SettingType };
+            requestBody.AddRange(Parameters);
+            return CreateByteArray(requestBody);
         }
     }
 }

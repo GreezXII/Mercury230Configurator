@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace M230Protocol.Frames.Base
+﻿namespace M230Protocol.Frames.Base
 {
     /* Base class for all requests.
      * +---------+------------------+---------+
@@ -35,13 +29,20 @@ namespace M230Protocol.Frames.Base
         public RequestTypes RequestType { get; protected set; }
         public Request(byte addr) : base(addr) { }
 
-        public virtual byte[] Create()
+        protected byte[] CreateByteArray(List<byte> specificRequest)
         {
-            byte[] body = new byte[] { Address, (byte)RequestType };
-            return AddCRC(body);
+            specificRequest.Insert(0, Address);
+            return AddCRC(specificRequest);
         }
 
-        internal byte[] StringToBCD(string s)  // BCD - Binary-coded decimal TODO: Use .net built in function
+        private static byte[] AddCRC(List<byte> request)
+        {
+            byte[] CRC = CalculateCRC16Modbus(request.ToArray());
+            request.AddRange(CRC);
+            return request.ToArray();
+        }
+
+        internal static byte[] StringToBCD(string s)  // BCD - Binary-coded decimal TODO: Use .net built in function
         {
             byte[] bytePassword = new byte[s.Length];
             for (int i = 0; i < s.Length; i++)

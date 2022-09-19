@@ -19,12 +19,12 @@ namespace M230Protocol.Frames.Requests
             Password = StringToBCD(pwd);
         }
 
-        public override byte[] Create()
+        public byte[] Create()
         {
-            List<byte> body = new() { Address, (byte)RequestType, AccessLevel };
-            body.AddRange(Password);
-            byte[] buffer = body.ToArray();
-            return AddCRC(buffer);
+            List<byte> requestBody = new() { (byte)RequestType, AccessLevel };
+            requestBody.AddRange(Password);
+            return CreateByteArray(requestBody);
+
         }
     }
 }
