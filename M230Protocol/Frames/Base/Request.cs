@@ -15,17 +15,6 @@
      */
     abstract class Request : Frame
     {
-        public enum RequestTypes : byte
-        {
-            TestConnection = 0x00,  // Test link
-            OpenConnection = 0x01,  // Open connection
-            CloseConnection = 0x02, // Close connection
-            ReadSettings = 0x08,    // Read setings
-            ReadJournal = 0x04,     // Read journal
-            ReadArray = 0x05,       // Read energy arrays within 12 months
-            WriteSettings = 0x03,   // Write settings
-        }
-
         public RequestTypes RequestType { get; protected set; }
         public Request(byte addr) : base(addr) { }
 

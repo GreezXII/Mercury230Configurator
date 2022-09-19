@@ -11,8 +11,8 @@ namespace M230Protocol.Frames.Base
             Address = response[0];
             Body = new byte[response.Length - 3];
             Array.Copy(response, 1, Body, 0, response.Length - 3);
+            CRC = new byte[] { response[^2], response[^1] };
             // TODO: Move CRC check in another class
-            //CRC = new byte[] { response[^2], response[^1] };
             //if (!CheckCRC(response))
             //    throw new Exception("CRC принятого пакета не совпадает с полученным значением CRC при проверке.");
             foreach (byte b in response)
@@ -33,7 +33,7 @@ namespace M230Protocol.Frames.Base
                 hex += ByteToHexString(buffer[i]);
             return Convert.ToInt32(hex, 16);
         }
-        protected int BiwiseBytesToInt(byte[] buffer)
+        protected int BitwiseBytesToInt(byte[] buffer)
         {
             int result = buffer[0];
             for (int i = 1; i < buffer.Length; i++)

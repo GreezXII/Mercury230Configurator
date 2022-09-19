@@ -4,15 +4,9 @@ namespace M230Protocol.Frames.Requests
 {
     class ReadSettingsRequest : Request
     {
-        public enum Settings : byte
-        {
-            SerialNumberAndReleaseDate = 0x00,  // Серийный номер и дата выпуска
-            SoftwareVersion = 0x03,             // Версия ПО
-            Location = 0x0B                     // Местоположение
-        }
         public byte SettingType { get; private set; }
         public byte[] Parameters { get; private set; }
-        public ReadSettingsRequest(byte addr, Settings settings, byte[] parameters) : base(addr)
+        public ReadSettingsRequest(byte addr, MeterSettings settings, byte[] parameters) : base(addr)
         {
             RequestType = RequestTypes.ReadSettings;
             SettingType = (byte)settings;

@@ -11,7 +11,7 @@ namespace M230Protocol.Frames.Responses
         {
             byte[] serialNumberBuffer = new byte[4];
             Array.Copy(response, 1, serialNumberBuffer, 0, 4);
-            SerialNumber = BiwiseBytesToInt(serialNumberBuffer);
+            SerialNumber = BitwiseBytesToInt(serialNumberBuffer);
 
             byte[] releaseDateBuffer = new byte[3];
             Array.Copy(response, 5, releaseDateBuffer, 0, 3);
