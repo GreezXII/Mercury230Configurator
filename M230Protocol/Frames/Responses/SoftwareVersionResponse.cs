@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Responses
 {
-    class SoftwareVersionResponse : Response
+    public class SoftwareVersionResponse : Response
     {
         public const int Length = 6;
         public string SoftwareVersion { get; private set; }

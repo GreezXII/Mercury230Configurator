@@ -2,7 +2,7 @@
  
 namespace M230Protocol.Frames.Requests
 {
-    class ReadSettingsRequest : Request
+    public class ReadSettingsRequest : Request
     {
         public byte SettingType { get; private set; }
         public byte[] Parameters { get; private set; }

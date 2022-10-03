@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Requests
 {
-    class TestLinkRequest : Request
+    public class TestLinkRequest : Request
     {
         public TestLinkRequest(byte addr) : base(addr)
         {

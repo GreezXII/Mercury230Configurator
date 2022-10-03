@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Requests
 {
-    class CloseConnectionRequest : Request
+    public class CloseConnectionRequest : Request
     {
         public CloseConnectionRequest(byte addr) : base(addr)
         {

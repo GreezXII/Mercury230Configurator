@@ -10,8 +10,8 @@ namespace M230Protocol.Frames.Responses
         public double ActiveNegative { get; private set; }
         public double ReactivePositive { get; private set; }
         public double ReactiveNegative { get; private set; }
-        public Rates Rate { get; private set; }
-        public ReadStoredEnergyResponse(byte[] response, Rates r) : base(response)
+        public MeterRates Rate { get; private set; }
+        public ReadStoredEnergyResponse(byte[] response, MeterRates r) : base(response)
         {
             Rate = r;
             byte[] buffer = new byte[4];

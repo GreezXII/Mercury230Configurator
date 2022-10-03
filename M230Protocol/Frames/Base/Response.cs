@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Base
 {
-    class Response : Frame
+    public class Response : Frame
     {
         public byte[] Body { get; private set; }
 

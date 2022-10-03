@@ -9,8 +9,8 @@ namespace M230Protocol.Frames.Responses
         public double Phase1 { get; private set; }
         public double Phase2 { get; private set; }
         public double Phase3 { get; private set; }
-        public Rates Rate { get; private set; }
-        public ReadStoredEnergyResponsePerPhase(byte[] response, Rates r) : base(response)
+        public MeterRates Rate { get; private set; }
+        public ReadStoredEnergyResponsePerPhase(byte[] response, MeterRates r) : base(response)
         {
             Rate = r;
             byte[] buffer = new byte[4];

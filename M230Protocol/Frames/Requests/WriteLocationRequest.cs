@@ -3,7 +3,7 @@ using System.Text;
 
 namespace M230Protocol.Frames.Requests
 {
-    class WriteLocationRequest : Request
+    public class WriteLocationRequest : Request
     {
         public byte ParameterNumber { get; private set; }
         public byte[] Location { get; private set; }

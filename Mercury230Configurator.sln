@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M230Protocol", "M230Protocol\M230Protocol.csproj", "{67E0CC18-9C73-4BBE-AB26-D3EE4DD868BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M230Protocol", "M230Protocol\M230Protocol.csproj", "{67E0CC18-9C73-4BBE-AB26-D3EE4DD868BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeterClient", "MeterClient\MeterClient.csproj", "{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{108A8C3A-FA70-4B3E-9D8F-B5BE2098510C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{67E0CC18-9C73-4BBE-AB26-D3EE4DD868BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67E0CC18-9C73-4BBE-AB26-D3EE4DD868BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67E0CC18-9C73-4BBE-AB26-D3EE4DD868BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{108A8C3A-FA70-4B3E-9D8F-B5BE2098510C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{108A8C3A-FA70-4B3E-9D8F-B5BE2098510C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{108A8C3A-FA70-4B3E-9D8F-B5BE2098510C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{108A8C3A-FA70-4B3E-9D8F-B5BE2098510C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

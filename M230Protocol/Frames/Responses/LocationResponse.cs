@@ -3,7 +3,7 @@ using System.Text;
 
 namespace M230Protocol.Frames.Responses
 {
-    class LocationResponse : Response
+    public class LocationResponse : Response
     {
         public const int Length = 7;
         public string Location { get; private set; }

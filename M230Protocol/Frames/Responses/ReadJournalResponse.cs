@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Responses
 {
-    class ReadJournalResponse : Response
+    public class ReadJournalResponse : Response
     {
         public const int Length = 9;
         public List<DateTime> Records { get; private set; } = new List<DateTime>();

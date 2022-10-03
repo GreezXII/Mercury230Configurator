@@ -1,6 +1,6 @@
 ﻿namespace M230Protocol
 {
-    enum MeterJournals : byte
+    public enum MeterJournals : byte
     {
         OnOff = 0x01,                     // Время включения и выключения прибора
         Phase1OnOff = 0x03,               // Время включения и выключения фазы 1

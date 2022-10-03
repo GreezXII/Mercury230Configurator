@@ -1,6 +1,6 @@
 ﻿namespace M230Protocol
 {
-    enum EnergyArrays : byte    // Массивы энергии в пределах 12 месяцев
+    public enum EnergyArrays : byte    // Массивы энергии в пределах 12 месяцев
     {
         FromReset,      // От сброса
         CurrentYear,    // Текущий год

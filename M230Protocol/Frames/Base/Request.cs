@@ -13,7 +13,7 @@
      * 
      * This is base class for other requests.
      */
-    abstract class Request : Frame
+    public abstract class Request : Frame
     {
         public RequestTypes RequestType { get; protected set; }
         public Request(byte addr) : base(addr) { }

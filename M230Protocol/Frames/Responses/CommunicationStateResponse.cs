@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Responses
 {
-    internal class CommunicationStateResponse : Response
+    public class CommunicationStateResponse : Response
     {
         public const int Length = 4;
         public enum CommunicationState : byte

@@ -15,7 +15,7 @@ namespace M230Protocol.Frames.Base
      * 
      * This is base class for other frames.
      */
-    class Frame
+    public class Frame
     {
         public byte Address { get; protected set; }
         public byte[]? CRC { get; protected set; }

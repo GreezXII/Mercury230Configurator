@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Requests
 {
-    class ReadJournalRecordRequest : Request
+    public class ReadJournalRecordRequest : Request
     {
         public byte JournalNumber { get; private set; }
         public byte RecordNumber { get; private set; }

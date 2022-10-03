@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Responses
 {
-    class SerialNumberAndReleaseDateResponse : Response
+    public class SerialNumberAndReleaseDateResponse : Response
     {
         public const int Length = 10;
         public int SerialNumber { get; private set; }

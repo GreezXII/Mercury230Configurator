@@ -1,6 +1,6 @@
 ﻿namespace M230Protocol
 {
-    enum Months : byte  // Месяцы
+    public enum Months : byte  // Месяцы
     {
         None,
         January,

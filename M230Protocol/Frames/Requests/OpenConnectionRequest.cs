@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Requests
 {
-    class OpenConnectionRequest : Request
+    public class OpenConnectionRequest : Request
     {
         public byte AccessLevel { get; private set; }
         public byte[] Password { get; private set; }

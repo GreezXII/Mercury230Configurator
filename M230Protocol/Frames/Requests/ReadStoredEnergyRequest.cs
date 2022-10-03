@@ -2,7 +2,7 @@
 
 namespace M230Protocol.Frames.Requests
 {
-    class ReadStoredEnergyRequest : Request
+    public class ReadStoredEnergyRequest : Request
     {
         public EnergyArrays EnergyDataType { get; private set; }
         public Months Month { get; private set; }

@@ -1,6 +1,6 @@
 ﻿namespace M230Protocol
 {
-    enum RequestTypes : byte
+    public enum RequestTypes : byte
     {
         TestConnection = 0x00,  // Тестирование канала связи
         OpenConnection = 0x01,  // Запрос на открытие канала связи
