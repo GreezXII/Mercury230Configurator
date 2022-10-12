@@ -28,10 +28,10 @@ namespace MeterClient
             };
         }
 
-        public async Task<byte[]> PerformDataExchange(byte[] buffer, int count, CancellationToken token)
+        public async Task<byte[]> PerformDataExchange(byte[] buffer, int count, CancellationToken token = default)
         {
             byte[] readBuffer = new byte[count];
-            int bytesRead = 0;
+            int bytesRead;
             int offset = 0;
             using (SerialPort)
             {

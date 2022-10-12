@@ -8,24 +8,23 @@ namespace M230Protocol.Frames.Base
 
         public Response(byte[] response)
         {
+            CRC = new byte[] { response[^2], response[^1] };
+            if (!CheckCRC(response))
+                throw new Exception("CRC принятого пакета не совпадает с полученным значением CRC при проверке.");
             Address = response[0];
             Body = new byte[response.Length - 3];
             Array.Copy(response, 1, Body, 0, response.Length - 3);
-            CRC = new byte[] { response[^2], response[^1] };
-            // TODO: Move CRC check in another class
-            //if (!CheckCRC(response))
-            //    throw new Exception("CRC принятого пакета не совпадает с полученным значением CRC при проверке.");
             foreach (byte b in response)
                 Trace.Write($"{Convert.ToString(b, 16)} ");  // TODO: Logging
             Trace.WriteLine("");
         }
-        //private bool CheckCRC(byte[] response) // TODO: Move CRC check in another class
-        //{
-        //    byte[] buffer = new byte[response.Length - 2];
-        //    Array.Copy(response, 0, buffer, 0, response.Length - 2);
-        //    byte[] CRCval = CalculateCRC16Modbus(buffer);
-        //    return CRCMatch(CRC, CRCval);
-        //}
+        private bool CheckCRC(byte[] response)
+        {
+            byte[] buffer = new byte[response.Length - 2];
+            Array.Copy(response, 0, buffer, 0, response.Length - 2);
+            byte[] CRCval = CalculateCRC16Modbus(buffer);
+            return CRCMatch(CRC, CRCval);
+        }
         protected int FullHexToInt(byte[] buffer)
         {
             string hex = "";

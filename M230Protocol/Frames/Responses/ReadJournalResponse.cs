@@ -4,7 +4,7 @@ namespace M230Protocol.Frames.Responses
 {
     public class ReadJournalResponse : Response
     {
-        public const int Length = 9;
+        public const int Length = 15;
         public List<DateTime> Records { get; private set; } = new List<DateTime>();
         public ReadJournalResponse(byte[] response) : base(response)
         {
