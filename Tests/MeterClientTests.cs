@@ -33,13 +33,9 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task ReadJournalRecord_OnOff()
+        public async Task ReadJournalRecords_OnOff()
         {
-            List<ReadJournalResponse> result = new List<ReadJournalResponse>();
-            for (int i = 0; i < 10; i++)
-            {
-                result.Add(await Meter.ReadJournalRecordAsync(MeterJournals.OnOff, (byte)i));
-            }
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OnOff);
         }
 
         [TestMethod]

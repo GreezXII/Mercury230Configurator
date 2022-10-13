@@ -44,5 +44,14 @@ namespace MeterClient
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, token);
             return new ReadJournalResponse(inputBuffer);
         }
+        public async Task<List<ReadJournalResponse>> ReadAllJournalRecordsAsync(MeterJournals journal, CancellationToken token = default)
+        {
+            List<ReadJournalResponse> result = new List<ReadJournalResponse>();
+            for (int i = 0; i < 10; i++)
+            {
+                result.Add(await ReadJournalRecordAsync(MeterJournals.OnOff, (byte)i));
+            }
+            return result;
+        }
     }
 }
