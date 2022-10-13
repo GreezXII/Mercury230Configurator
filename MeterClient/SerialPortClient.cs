@@ -1,4 +1,5 @@
 ﻿using System.IO.Ports;
+using M230Protocol.Frames.Base;
 
 namespace MeterClient
 {

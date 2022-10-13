@@ -31,6 +31,8 @@
             return request.ToArray();
         }
 
+        public abstract byte[] Create();
+
         internal static byte[] StringToBCD(string s)  // BCD - Binary-coded decimal TODO: Use .net built in function
         {
             byte[] bytePassword = new byte[s.Length];

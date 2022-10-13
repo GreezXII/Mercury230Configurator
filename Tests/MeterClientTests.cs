@@ -26,13 +26,12 @@ namespace Tests
             Assert.AreEqual(result, CommunicationState.OK);
         }
 
-        //[TestCleanup]
-        //public async Task CloseConnection()
-        //{
-        //    CloseConnectionRequest openConnectionRequest = new(89);
-        //    byte[] outputBuffer = openConnectionRequest.Create();
-        //    await SerialPortClient.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, Token);
-        //}
+        [TestMethod]
+        public async Task CloseConnection()
+        {
+            CommunicationState result = await Meter.CloseConnectionAsync();
+            Assert.AreEqual(result, CommunicationState.OK);
+        }
 
         //[TestMethod]
         //public async Task TestLink()

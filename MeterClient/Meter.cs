@@ -21,5 +21,13 @@ namespace MeterClient
             CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
             return response.State;
         }
+        public async Task<CommunicationState> CloseConnectionAsync(CancellationToken token = default)
+        {
+            CloseConnectionRequest request = new CloseConnectionRequest(Address);
+            byte[] outputBuffer = request.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, token);
+            CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
+            return response.State;
+        }
     }
 }
