@@ -37,5 +37,12 @@ namespace MeterClient
             CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
             return response.State;
         }
+        public async Task<ReadJournalResponse> ReadJournalRecordAsync(MeterJournals journal, byte recordNumber, CancellationToken token = default)
+        {
+            ReadJournalRecordRequest readJournalRecordRequest = new ReadJournalRecordRequest(Address, journal, recordNumber);
+            byte[] outputBuffer = readJournalRecordRequest.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, token);
+            return new ReadJournalResponse(inputBuffer);
+        }
     }
 }

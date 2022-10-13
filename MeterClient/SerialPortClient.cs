@@ -31,6 +31,7 @@ namespace MeterClient
 
         public async Task<byte[]> PerformDataExchange(byte[] buffer, int count, CancellationToken token = default)
         {
+            // TODO: Timeout
             byte[] readBuffer = new byte[count];
             int bytesRead;
             int offset = 0;

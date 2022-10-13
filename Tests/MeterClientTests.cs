@@ -1,5 +1,6 @@
 using MeterClient;
 using M230Protocol;
+using M230Protocol.Frames.Responses;
 
 namespace Tests
 {
@@ -32,40 +33,21 @@ namespace Tests
         }
 
         [TestMethod]
+        public async Task ReadJournalRecord_OnOff()
+        {
+            List<ReadJournalResponse> result = new List<ReadJournalResponse>();
+            for (int i = 0; i < 10; i++)
+            {
+                result.Add(await Meter.ReadJournalRecordAsync(MeterJournals.OnOff, (byte)i));
+            }
+        }
+
+        [TestMethod]
         public async Task CloseConnection()
         {
             CommunicationState result = await Meter.CloseConnectionAsync();
             Assert.AreEqual(result, CommunicationState.OK);
         }
-
-        //[TestMethod]
-        //public async Task OpenConnection_User_Success()
-        //{
-        //    OpenConnectionRequest openConnectionRequest = new(89, MeterAccessLevels.User, userPassword);
-        //    byte[] outputBuffer = openConnectionRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, Token);
-        //    CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
-        //    Assert.AreEqual(response.State, CommunicationState.OK);
-        //}
-
-        //[TestMethod]
-        //public async Task OpenConnection_Admin_Success()
-        //{
-        //    OpenConnectionRequest openConnectionRequest = new(89, MeterAccessLevels.Admin, adminPassword);
-        //    byte[] outputBuffer = openConnectionRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, Token);
-        //    CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
-        //    Assert.AreEqual(response.State, CommunicationState.OK);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_Phase1OnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.Phase1OnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
 
         //[TestMethod]
         //public async Task ReadJournalRecord_Phase2OnOff_Success()
