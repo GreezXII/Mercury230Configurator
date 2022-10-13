@@ -1,7 +1,5 @@
 using MeterClient;
 using M230Protocol;
-using M230Protocol.Frames.Requests;
-using M230Protocol.Frames.Responses;
 
 namespace Tests
 {
@@ -20,6 +18,13 @@ namespace Tests
         }
 
         [TestMethod]
+        public async Task TestLink()
+        {
+            CommunicationState result = await Meter.TestLinkAsync();
+            Assert.AreEqual(result, CommunicationState.OK);
+        }
+
+        [TestMethod]
         public async Task OpenUserConnection()
         {
             CommunicationState result = await Meter.OpenConnectionAsync(MeterAccessLevels.User, userPassword);
@@ -32,18 +37,6 @@ namespace Tests
             CommunicationState result = await Meter.CloseConnectionAsync();
             Assert.AreEqual(result, CommunicationState.OK);
         }
-
-        //[TestMethod]
-        //public async Task TestLink()
-        //{
-        //    SerialPortClient SerialPortClient = new("COM5");
-        //    TestLinkRequest testLinkRequest = new(89);
-        //    byte[] outputBuffer = testLinkRequest.Create();
-        //    CancellationToken Token = new CancellationToken();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, Token);
-        //    CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
-        //    Assert.AreEqual(response.State, CommunicationState.OK);
-        //}
 
         //[TestMethod]
         //public async Task OpenConnection_User_Success()

@@ -13,6 +13,14 @@ namespace MeterClient
             Address = address;
             SerialPort = new SerialPortClient(portName);
         }
+        public async Task<CommunicationState> TestLinkAsync(CancellationToken token = default)
+        {
+            TestLinkRequest request = new TestLinkRequest(Address);
+            byte[] outputBuffer = request.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, token);
+            CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
+            return response.State;
+        }
         public async Task<CommunicationState> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, string password, CancellationToken token = default)
         {
             OpenConnectionRequest request = new(Address, meterAccessLevel, password);
