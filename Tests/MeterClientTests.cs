@@ -84,8 +84,7 @@ namespace Tests
         [TestMethod]
         public async Task CloseConnection()
         {
-            CommunicationState result = await Meter.CloseConnectionAsync();
-            Assert.AreEqual(result, CommunicationState.OK);
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1OnOff);
         }
     }
 }
