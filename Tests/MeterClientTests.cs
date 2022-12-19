@@ -1,6 +1,7 @@
 using MeterClient;
 using M230Protocol;
 using M230Protocol.Frames.Responses;
+using M230Protocol.Frames.Requests;
 
 namespace Tests
 {
@@ -37,6 +38,48 @@ namespace Tests
         {
             List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OnOff);
         }
+        
+        [TestMethod]
+        public async Task ReadJournalRecord_Phase1OnOff_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1OnOff);
+        }
+
+        [TestMethod]
+        public async Task ReadJournalRecord_Phase2OnOff_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase2OnOff);
+        }
+
+        [TestMethod]
+        public async Task ReadJournalRecord_Phase3OnOff_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase3OnOff);
+        }
+
+        [TestMethod]
+        public async Task ReadJournalRecord_Phase1CurrentOnOff_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1CurrentOnOff);
+        }
+
+        [TestMethod]
+        public async Task ReadJournalRecord_Phase2CurrentOnOff_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase2CurrentOnOff);
+        }
+
+        [TestMethod]
+        public async Task ReadJournalRecord_Phase3CurrentOnOff_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase3CurrentOnOff);
+        }
+
+        [TestMethod]
+        public async Task ReadJournalRecord_OpeningClosing_Success()
+        {
+            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OpeningClosing);
+        }
 
         [TestMethod]
         public async Task CloseConnection()
@@ -44,68 +87,5 @@ namespace Tests
             CommunicationState result = await Meter.CloseConnectionAsync();
             Assert.AreEqual(result, CommunicationState.OK);
         }
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_Phase2OnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.Phase2OnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_Phase3OnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.Phase3OnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_Phase1CurrentOnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.Phase1CurrentOnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_Phase2CurrentOnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.Phase2CurrentOnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_Phase3CurrentOnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.Phase3CurrentOnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_OnOff_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.OnOff, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
-
-        //[TestMethod]
-        //public async Task ReadJournalRecord_OpenClosing_Success()
-        //{
-        //    ReadJournalRecordRequest readJournalRecordRequest = new(89, MeterJournals.OpeningClosing, 0);
-        //    byte[] outputBuffer = readJournalRecordRequest.Create();
-        //    byte[] inputBuffer = await SerialPortClient.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, Token);
-        //    ReadJournalResponse response = new ReadJournalResponse(inputBuffer);
-        //}
     }
 }
