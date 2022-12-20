@@ -3,17 +3,16 @@ using static M230Protocol.Frames.Requests.ReadStoredEnergyRequest;
 
 namespace M230Protocol.Frames.Responses
 {
-    class ReadStoredEnergyResponse : Response
+    public class ReadStoredEnergyResponse : Response
     {
         public const int Length = 19;
         public double ActivePositive { get; private set; }
         public double ActiveNegative { get; private set; }
         public double ReactivePositive { get; private set; }
         public double ReactiveNegative { get; private set; }
-        public MeterRates Rate { get; private set; }
-        public ReadStoredEnergyResponse(byte[] response, MeterRates r) : base(response)
+
+        public ReadStoredEnergyResponse(byte[] response) : base(response)
         {
-            Rate = r;
             byte[] buffer = new byte[4];
             Array.Copy(response, 1, buffer, 0, 4);
             ActivePositive = GetEnergyValue(buffer);

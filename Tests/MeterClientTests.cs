@@ -1,35 +1,31 @@
 using MeterClient;
 using M230Protocol;
 using M230Protocol.Frames.Responses;
-using M230Protocol.Frames.Requests;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {
     [TestClass]
     public class MeterClientTests
     {
-        Meter Meter { get; set; }
-        SerialPortClient SerialPortClient { get; set; }
+        static Meter Meter = new Meter(89, "COM5");
+        static SerialPortClient SerialPortClient { get; set; }
         CancellationToken Token { get; set; }
-        readonly string userPassword = "111111";
-        readonly string adminPassword = "222222";
+        static readonly string userPassword = "111111";
+        static readonly string adminPassword = "222222";
 
-        public MeterClientTests()
+        [TestMethod]
+        [ClassInitialize]
+        public static async Task InitializeMeter(TestContext TestContext)
         {
-            Meter = new Meter(89, "COM5");
+            Meter.OpenConnectionAsync(MeterAccessLevels.User, userPassword).Wait();
         }
 
         [TestMethod]
         public async Task TestLink()
         {
             CommunicationState result = await Meter.TestLinkAsync();
-            Assert.AreEqual(result, CommunicationState.OK);
-        }
-
-        [TestMethod]
-        public async Task OpenUserConnection()
-        {
-            CommunicationState result = await Meter.OpenConnectionAsync(MeterAccessLevels.User, userPassword);
             Assert.AreEqual(result, CommunicationState.OK);
         }
 
@@ -81,10 +77,54 @@ namespace Tests
             List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OpeningClosing);
         }
 
-        [TestMethod]
-        public async Task CloseConnection()
+        // TODO: add to test separate rates?
+		[TestMethod]
+		public async Task ReadStoredEnergyFromReset_Success()
+		{
+            var result = await Meter.ReadStoredEnergyFromResetAsync(MeterRates.Sum);
+		}
+
+		[TestMethod]
+		public async Task ReadStoredEnergyCurrentYear_Success()
+		{
+			var result = await Meter.ReadStoredEnergyCurrentYearAsync(MeterRates.Sum);
+		}
+
+		[TestMethod]
+		public async Task ReadStoredEnergyPastYear_Success()
+		{
+			var result = await Meter.ReadStoredEnergyPastYearAsync(MeterRates.Sum);
+		}
+
+		[TestMethod]
+		public async Task ReadStoredEnergyCurrentDay_Success()
+		{
+			var result = await Meter.ReadStoredEnergyCurrentDayAsync(MeterRates.Sum);
+		}
+
+		[TestMethod]
+		public async Task ReadStoredEnergyPastDay_Success()
+		{
+			var result = await Meter.ReadStoredEnergyPastDayAsync(MeterRates.Sum);
+		}
+
+		[TestMethod]
+		public async Task ReadStoredEnergyByMonth_Success()
+		{
+            foreach (Months month in Enum.GetValues(typeof(Months)))
+            {
+                // TODO: Delete Months.None
+                if (month == Months.None)
+                    continue;
+                await Meter.ReadStoredEnergyByMonthAsync(MeterRates.Sum, month);
+			}
+		}
+
+		[TestMethod]
+        [ClassCleanup]
+        public static async Task CloseConnection()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1OnOff);
+            await Meter.CloseConnectionAsync();
         }
     }
 }
