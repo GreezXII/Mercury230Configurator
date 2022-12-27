@@ -138,6 +138,12 @@ namespace Tests
             var result = await Meter.ReadLocationAsync();
         }
 
+        [TestMethod]
+        public async Task ReadSoftwareVersion()
+        {
+            var result = await Meter.ReadSoftwareVersionAsync();
+        }
+
 		[TestMethod]
         [ClassCleanup]
         public static async Task CloseConnection()

@@ -119,6 +119,12 @@ namespace MeterClient
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, LocationResponse.Length, token);
             return new LocationResponse(inputBuffer);
         }
-
+		public async Task<SoftwareVersionResponse> ReadSoftwareVersionAsync(CancellationToken token = default)
+		{
+            ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SoftwareVersion, new byte[0]);
+            byte[] outputBuffer = request.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, SoftwareVersionResponse.Length, token);
+            return new SoftwareVersionResponse(inputBuffer);
+		}
 	}
 }
