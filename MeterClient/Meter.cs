@@ -98,5 +98,12 @@ namespace MeterClient
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
+        public async Task<ReadStoredEnergyPerPhaseResponse> ReadStoredEnergyPerPhases(MeterRates meterRates, CancellationToken token = default)
+        {
+            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, Months.None, meterRates);
+            byte[] outputBuffer = request.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
+            return new ReadStoredEnergyPerPhaseResponse(inputBuffer);
+		}
 	}
 }

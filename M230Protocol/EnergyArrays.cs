@@ -8,6 +8,6 @@
         Month,          // За месяц
         CurrentDay,     // За текущие сутки
         PastDay,        // За прошедшие сутки
-        PerPhase        // По фазам
+        PerPhases        // По фазам
     }
 }

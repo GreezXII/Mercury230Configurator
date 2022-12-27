@@ -121,6 +121,12 @@ namespace Tests
 		}
 
 		[TestMethod]
+		public async Task ReadStoredEnergyPerPhases_Success()
+		{
+            var result = await Meter.ReadStoredEnergyPerPhases(MeterRates.Sum);
+		}
+
+		[TestMethod]
         [ClassCleanup]
         public static async Task CloseConnection()
         {
