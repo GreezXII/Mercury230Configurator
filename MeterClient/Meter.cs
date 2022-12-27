@@ -105,5 +105,12 @@ namespace MeterClient
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
             return new ReadStoredEnergyPerPhaseResponse(inputBuffer);
 		}
+        public async Task<SerialNumberAndReleaseDateResponse> ReadSerialNumberAndReleaseDate(CancellationToken token = default)
+        {
+			ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SerialNumberAndReleaseDate, new byte[0]);
+            byte[] outputBuffer = request.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, SerialNumberAndReleaseDateResponse.Length, token);
+            return new SerialNumberAndReleaseDateResponse(inputBuffer);
+        }
 	}
 }
