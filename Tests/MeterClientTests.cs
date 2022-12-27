@@ -123,13 +123,19 @@ namespace Tests
 		[TestMethod]
 		public async Task ReadStoredEnergyPerPhases_Success()
 		{
-            var result = await Meter.ReadStoredEnergyPerPhases(MeterRates.Sum);
+            var result = await Meter.ReadStoredEnergyPerPhasesAsync(MeterRates.Sum);
 		}
 
         [TestMethod]
         public async Task ReadSerialNumberAndReleaseDate_Success()
         {
-            var result = await Meter.ReadSerialNumberAndReleaseDate();
+            var result = await Meter.ReadSerialNumberAndReleaseDateAsync();
+        }
+
+        [TestMethod]
+        public async Task ReadLocation_Success()
+        {
+            var result = await Meter.ReadLocationAsync();
         }
 
 		[TestMethod]

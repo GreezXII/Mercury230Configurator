@@ -98,19 +98,27 @@ namespace MeterClient
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
-        public async Task<ReadStoredEnergyPerPhaseResponse> ReadStoredEnergyPerPhases(MeterRates meterRates, CancellationToken token = default)
+        public async Task<ReadStoredEnergyPerPhaseResponse> ReadStoredEnergyPerPhasesAsync(MeterRates meterRates, CancellationToken token = default)
         {
             ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, Months.None, meterRates);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
             return new ReadStoredEnergyPerPhaseResponse(inputBuffer);
 		}
-        public async Task<SerialNumberAndReleaseDateResponse> ReadSerialNumberAndReleaseDate(CancellationToken token = default)
+        public async Task<SerialNumberAndReleaseDateResponse> ReadSerialNumberAndReleaseDateAsync(CancellationToken token = default)
         {
 			ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SerialNumberAndReleaseDate, new byte[0]);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, SerialNumberAndReleaseDateResponse.Length, token);
             return new SerialNumberAndReleaseDateResponse(inputBuffer);
         }
+        public async Task<LocationResponse> ReadLocationAsync(CancellationToken token = default)
+        {
+            ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.Location, new byte[0]);
+            byte[] outputBuffer = request.Create();
+            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, LocationResponse.Length, token);
+            return new LocationResponse(inputBuffer);
+        }
+
 	}
 }
