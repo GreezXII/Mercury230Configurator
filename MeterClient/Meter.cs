@@ -55,44 +55,41 @@ namespace MeterClient
         }
         public async Task<ReadStoredEnergyResponse> ReadStoredEnergyFromResetAsync(MeterRates meterRates, CancellationToken token = default)
         {
-            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.FromReset, Months.None, meterRates);
+            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.FromReset, 0x0, meterRates);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
             return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyCurrentYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentYear, Months.None, meterRates);
+			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyPastYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastYear, Months.None, meterRates);
+			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyCurrentDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentDay, Months.None, meterRates);
+			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyPastDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastDay, Months.None, meterRates);
+			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyByMonthAsync(MeterRates meterRates, Months month, CancellationToken token = default)
 		{
-            // TODO: Remove Months.None from Months enum
-            if (month == Months.None)
-                throw new Exception("You can't use Months.None for reading responses by month.");
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.Month, month, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
@@ -100,7 +97,7 @@ namespace MeterClient
 		}
         public async Task<ReadStoredEnergyPerPhaseResponse> ReadStoredEnergyPerPhasesAsync(MeterRates meterRates, CancellationToken token = default)
         {
-            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, Months.None, meterRates);
+            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, null, meterRates);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
             return new ReadStoredEnergyPerPhaseResponse(inputBuffer);

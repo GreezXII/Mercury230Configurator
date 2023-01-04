@@ -7,11 +7,11 @@ namespace M230Protocol.Frames.Requests
         public EnergyArrays EnergyDataType { get; private set; }
         public Months Month { get; private set; }
         public MeterRates Rate { get; private set; }
-        public ReadStoredEnergyRequest(byte addr, EnergyArrays energyDataType, Months month, MeterRates rate) : base(addr)
+        public ReadStoredEnergyRequest(byte addr, EnergyArrays energyDataType, Months? month, MeterRates rate) : base(addr)
         {
             RequestType = RequestTypes.ReadArray;
             EnergyDataType = energyDataType;
-            Month = month;
+            Month = month == null ? 0x0 : month.Value;
             Rate = rate;
         }
         private byte CombineMonthAndEnergyDataArray(EnergyArrays energyDataType, Months month)

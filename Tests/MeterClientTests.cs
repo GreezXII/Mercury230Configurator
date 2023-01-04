@@ -113,9 +113,6 @@ namespace Tests
 		{
             foreach (Months month in Enum.GetValues(typeof(Months)))
             {
-                // TODO: Delete Months.None
-                if (month == Months.None)
-                    continue;
                 await Meter.ReadStoredEnergyByMonthAsync(MeterRates.Sum, month);
 			}
 		}
