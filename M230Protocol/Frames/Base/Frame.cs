@@ -24,19 +24,6 @@ namespace M230Protocol.Frames.Base
 
         public Frame(byte address) => Address = address;
 
-        public static bool CRCMatch(byte[] a, byte[] b)
-        {
-            if (a == null || b == null)
-                return false;
-            if (a.Length != b.Length)
-                return false;
-            for (int i = 0; i < a.Length; i++)
-                if (a[i] != b[i])
-                    return false;
-
-            return true;
-        }
-
         public static byte[] CalculateCRC16Modbus(byte[] buffer)
         {
             ushort crc = 0xFFFF;
