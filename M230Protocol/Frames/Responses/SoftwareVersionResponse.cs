@@ -10,12 +10,7 @@ namespace M230Protocol.Frames.Responses
         {
             byte[] buffer = new byte[3];
             Array.Copy(response, 1, buffer, 0, 3);
-
-            SoftwareVersion = buffer[0].ToString();
-            for (int i = 1; i < buffer.Length; i++)
-            {
-                SoftwareVersion += "." + buffer[i].ToString();
-            }
+            SoftwareVersion = String.Join(".", buffer);
         }
     }
 }
