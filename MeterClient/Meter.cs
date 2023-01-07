@@ -1,4 +1,5 @@
 ﻿using M230Protocol;
+using M230Protocol.Exceptions;
 using M230Protocol.Frames.Requests;
 using M230Protocol.Frames.Responses;
 
@@ -13,35 +14,34 @@ namespace MeterClient
             Address = address;
             SerialPort = new SerialPortClient(portName);
         }
-        public async Task<CommunicationState> TestLinkAsync(CancellationToken token = default)
+        public async Task<CommunicationStateResponse> TestLinkAsync(CancellationToken token = default)
         {
             TestLinkRequest request = new TestLinkRequest(Address);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, token);
-            CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
-            return response.State;
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
+            return new CommunicationStateResponse(inputBuffer);
         }
-        public async Task<CommunicationState> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, string password, CancellationToken token = default)
+        public async Task<CommunicationStateResponse> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, string password, CancellationToken token = default)
         {
             OpenConnectionRequest request = new(Address, meterAccessLevel, password);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, token);
-            CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
-            return response.State;
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
+            return new CommunicationStateResponse(inputBuffer);
         }
-        public async Task<CommunicationState> CloseConnectionAsync(CancellationToken token = default)
+        public async Task<CommunicationStateResponse> CloseConnectionAsync(CancellationToken token = default)
         {
             CloseConnectionRequest request = new CloseConnectionRequest(Address);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, CommunicationStateResponse.Length, token);
-            CommunicationStateResponse response = new CommunicationStateResponse(inputBuffer);
-            return response.State;
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
+            return new CommunicationStateResponse(inputBuffer);
         }
         public async Task<ReadJournalResponse> ReadJournalRecordAsync(MeterJournals journal, byte recordNumber, CancellationToken token = default)
         {
+            if (recordNumber < 0 || recordNumber > 9)
+                throw new WrongRecordNumberException();
             ReadJournalRecordRequest readJournalRecordRequest = new ReadJournalRecordRequest(Address, journal, recordNumber);
             byte[] outputBuffer = readJournalRecordRequest.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadJournalResponse.Length, token);
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadJournalResponse.Length, token);
             return new ReadJournalResponse(inputBuffer);
         }
         public async Task<List<ReadJournalResponse>> ReadAllJournalRecordsAsync(MeterJournals journal, CancellationToken token = default)
@@ -57,70 +57,70 @@ namespace MeterClient
         {
             ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.FromReset, 0x0, meterRates);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
             return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyCurrentYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
-			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
+			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyPastYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
-			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
+			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyCurrentDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
-			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
+			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyPastDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
-			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
+			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
 		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyByMonthAsync(MeterRates meterRates, Months month, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.Month, month, meterRates);
 			byte[] outputBuffer = request.Create();
-			byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyResponse.Length, token);
+			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			return new ReadStoredEnergyResponse(inputBuffer);
 		}
         public async Task<ReadStoredEnergyPerPhaseResponse> ReadStoredEnergyPerPhasesAsync(MeterRates meterRates, CancellationToken token = default)
         {
             ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, null, meterRates);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
             return new ReadStoredEnergyPerPhaseResponse(inputBuffer);
 		}
         public async Task<SerialNumberAndReleaseDateResponse> ReadSerialNumberAndReleaseDateAsync(CancellationToken token = default)
         {
 			ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SerialNumberAndReleaseDate, new byte[0]);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, SerialNumberAndReleaseDateResponse.Length, token);
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, SerialNumberAndReleaseDateResponse.Length, token);
             return new SerialNumberAndReleaseDateResponse(inputBuffer);
         }
         public async Task<LocationResponse> ReadLocationAsync(CancellationToken token = default)
         {
             ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.Location, new byte[0]);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, LocationResponse.Length, token);
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, LocationResponse.Length, token);
             return new LocationResponse(inputBuffer);
         }
 		public async Task<SoftwareVersionResponse> ReadSoftwareVersionAsync(CancellationToken token = default)
 		{
             ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SoftwareVersion, new byte[0]);
             byte[] outputBuffer = request.Create();
-            byte[] inputBuffer = await SerialPort.PerformDataExchange(outputBuffer, SoftwareVersionResponse.Length, token);
+            byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, SoftwareVersionResponse.Length, token);
             return new SoftwareVersionResponse(inputBuffer);
 		}
 	}
