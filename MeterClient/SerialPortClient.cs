@@ -1,20 +1,17 @@
 ﻿using System.IO.Ports;
 using M230Protocol.Frames.Base;
+using System;
 
 namespace MeterClient
 {
     public class SerialPortClient
     {
-        // TODO: figure out settings
-        // TODO: refactor constructor
-        // TODO: creational patterns
         public SerialPort SerialPort { get; private set; }
         public SerialPortClient(string portName, 
                                 int baudrate = 9600, 
                                 Parity parity = Parity.None, 
                                 int dataBits = 8, 
                                 StopBits portStopBits = StopBits.One, 
-                                int writeTimeout = 5000, 
                                 int readTimeout = 5000)
         {
             SerialPort = new SerialPort
@@ -24,12 +21,11 @@ namespace MeterClient
                 Parity = parity,
                 DataBits = dataBits,
                 StopBits = portStopBits,
-                WriteTimeout = writeTimeout,
                 ReadTimeout = readTimeout
             };
         }
 
-        public async Task<byte[]> GetResponseAsync(byte[] buffer, int count, CancellationToken token = default)
+        private async Task<byte[]> ReadFromSerialPortAsync(byte[] buffer, int count, CancellationToken token = default)
         {
             // TODO: Timeout
             byte[] readBuffer = new byte[count];
@@ -42,12 +38,23 @@ namespace MeterClient
 
                 while (count > 0)
                 {
-                    bytesRead = await SerialPort.BaseStream.ReadAsync(readBuffer, offset, count, token);
+                    if (token.IsCancellationRequested)
+                        throw new OperationCanceledException();
+                    bytesRead = await SerialPort.BaseStream.ReadAsync(readBuffer.AsMemory(offset, count), token);
                     offset += bytesRead;
                     count -= bytesRead;
                 }
             }
             return readBuffer;
         }
-    }
+		public async Task<byte[]> GetResponseAsync(byte[] buffer, int count, CancellationToken token = default)
+        {
+            Task<byte[]> readFromSerialPortTask = ReadFromSerialPortAsync(buffer, count, token);
+            var completedTask = await Task.WhenAny(readFromSerialPortTask, Task.Delay(SerialPort.ReadTimeout, token));
+            if (completedTask == readFromSerialPortTask)
+                return await readFromSerialPortTask;
+            else
+                throw new TimeoutException();
+		}
+	}
 }
