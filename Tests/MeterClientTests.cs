@@ -1,8 +1,6 @@
 using MeterClient;
 using M230Protocol;
 using M230Protocol.Frames.Responses;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {
@@ -25,8 +23,8 @@ namespace Tests
         [TestMethod]
         public async Task TestLink()
         {
-            CommunicationState result = await Meter.TestLinkAsync();
-            Assert.AreEqual(result, CommunicationState.OK);
+            CommunicationStateResponse result = await Meter.TestLinkAsync();
+            Assert.AreEqual(result.State, CommunicationState.OK);
         }
 
         [TestMethod]
