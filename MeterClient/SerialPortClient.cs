@@ -39,14 +39,13 @@ namespace MeterClient
                 {
                     if (token.IsCancellationRequested)
                         throw new OperationCanceledException();
-                    int bytesRead = await SerialPort.BaseStream.ReadAsync(inputBuffer.AsMemory(offset, count), token);
+                    bytesRead = await SerialPort.BaseStream.ReadAsync(readBuffer.AsMemory(offset, count), token);
                     offset += bytesRead;
                     count -= bytesRead;
                 }
             }
-            return inputBuffer;
+            return readBuffer;
         }
-
 		public async Task<byte[]> GetResponseAsync(byte[] buffer, int count, CancellationToken token = default)
         {
             Task<byte[]> readFromSerialPortTask = ReadFromSerialPortAsync(buffer, count, token);
