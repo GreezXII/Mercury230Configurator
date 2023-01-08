@@ -25,26 +25,25 @@ namespace MeterClient
             };
         }
 
-        private async Task<byte[]> ReadFromSerialPortAsync(byte[] buffer, int count, CancellationToken token = default)
+        private async Task<byte[]> ReadFromSerialPortAsync(byte[] outputData, int count, CancellationToken token = default)
         {
-            // TODO: Timeout
-            byte[] inputBuffer = new byte[count];
-            int offset = 0;
             using (SerialPort)
             {
                 SerialPort.Open();
-                await SerialPort.BaseStream.WriteAsync(buffer, token);
+                await SerialPort.BaseStream.WriteAsync(outputData, token);
 
-                while (count > 0)
+				byte[] inputData = new byte[count];
+				int offset = 0;
+				while (count > 0)
                 {
                     if (token.IsCancellationRequested)
                         throw new OperationCanceledException();
-                    bytesRead = await SerialPort.BaseStream.ReadAsync(readBuffer.AsMemory(offset, count), token);
+                    int bytesRead = await SerialPort.BaseStream.ReadAsync(inputData.AsMemory(offset, count), token);
                     offset += bytesRead;
                     count -= bytesRead;
                 }
+                return inputData;
             }
-            return readBuffer;
         }
 		public async Task<byte[]> GetResponseAsync(byte[] buffer, int count, CancellationToken token = default)
         {
