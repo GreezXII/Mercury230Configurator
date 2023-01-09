@@ -63,11 +63,11 @@ namespace MeterClient
 		/// <param name="recordNumber">Serial number of record in journal. Should be in 0...9 range.</param>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
 		/// <returns>A task that returns <see cref="ReadJournalResponse"/>.</returns>
-		/// <exception cref="WrongRecordNumberException"></exception>
+		/// <exception cref="InvalidRecordNumberException"></exception>
 		public async Task<ReadJournalResponse> ReadJournalRecordAsync(MeterJournals journal, byte recordNumber, CancellationToken token = default)
         {
             if (recordNumber < 0 || recordNumber > 9)
-                throw new WrongRecordNumberException();
+                throw new InvalidRecordNumberException();
             ReadJournalRecordRequest readJournalRecordRequest = new ReadJournalRecordRequest(Address, journal, recordNumber);
             byte[] outputBuffer = readJournalRecordRequest.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadJournalResponse.Length, token);

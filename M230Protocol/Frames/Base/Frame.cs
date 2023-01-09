@@ -3,28 +3,29 @@ using System.Reflection;
 
 namespace M230Protocol.Frames.Base
 {
-    /* Base class for all frames.
-     * +---------+---------+
-     * | Address |   CRC   |
-     * | 1 byte  | 2 bytes |
-     * +---------+---------+
-     * 
-     * Address - address of meter.
-     * CRC - Cyclic redundancy check, checksum for data integrity. 
-     *       CRC16 with MODBUS polynomial
-     * 
-     * This is base class for other frames.
-     */
-    public class Frame
+	/// <summary>
+	/// Base class for frames. Frame in this context is a class with specific fields that parsed from a byte array.
+	/// Byte array specifies a command for the meter or response from the meter.
+	/// </summary>
+	public class Frame
     {
-        public byte Address { get; protected set; }
-        public byte[]? CRC { get; protected set; }
+		/// <summary>
+		/// Address of the meter.
+		/// </summary>
+		public byte Address { get; protected set; }
+		/// <summary>
+		/// Cyclic redundancy check, checksum for data integrity. CRC16 with MODBUS polynomial.
+		/// </summary>
+		public byte[]? CRC { get; protected set; }
 
         public Frame() { }
-
         public Frame(byte address) => Address = address;
-
-        public static byte[] CalculateCRC16Modbus(byte[] buffer)
+		/// <summary>
+		/// Calculates CRC16 with MODBUS polynomial.
+		/// </summary>
+		/// <param name="buffer">Array for which CRC is required.</param>
+		/// <returns>Return array with two CRC bytes.</returns>
+		public static byte[] CalculateCRC16Modbus(byte[] buffer)
         {
             ushort crc = 0xFFFF;
             for (int pos = 0; pos < buffer.Length; pos++)

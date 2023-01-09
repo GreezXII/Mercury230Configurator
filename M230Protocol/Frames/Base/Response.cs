@@ -2,10 +2,15 @@
 
 namespace M230Protocol.Frames.Base
 {
+    /// <summary>
+    /// Base class for responses. Response in this context is answer from the meter that was parsed from a received byte array.
+    /// </summary>
     public class Response : Frame
     {
+        /// <summary>
+        /// Response from the meter with excluded meter address and CRC.
+        /// </summary>
         public byte[] Body { get; private set; }
-
         public Response(byte[] response)
         {
             CRC = new byte[] { response[^2], response[^1] };
@@ -15,6 +20,11 @@ namespace M230Protocol.Frames.Base
             Body = new byte[response.Length - 3];
             Array.Copy(response, 1, Body, 0, response.Length - 3);
         }
+        /// <summary>
+        /// Check that response was not changed during transmitting.
+        /// </summary>
+        /// <param name="response">Response from the meter.</param>
+        /// <returns></returns>
         private bool CheckCRC(byte[] response)
         {
             byte[] buffer = new byte[response.Length - 2];
@@ -24,7 +34,8 @@ namespace M230Protocol.Frames.Base
                 return false;
             return Enumerable.SequenceEqual(CRC, calculatedCRC);
         }
-        protected int FullHexToInt(byte[] buffer)
+		// TODO: Change functions that work with number representations
+		protected int FullHexToInt(byte[] buffer)
         {
             string hex = "";
             for (int i = 0; i < buffer.Length; i++)
