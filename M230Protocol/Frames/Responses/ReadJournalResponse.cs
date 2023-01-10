@@ -5,6 +5,9 @@ namespace M230Protocol.Frames.Responses
     public class ReadJournalResponse : Response
     {
         public const int Length = 15;
+        /// <summary>
+        /// Records of an event journal.
+        /// </summary>
         public List<DateTime> Records { get; private set; } = new List<DateTime>();
         public ReadJournalResponse(byte[] response) : base(response)
         {
@@ -14,6 +17,11 @@ namespace M230Protocol.Frames.Responses
             Array.Copy(response, 7, buffer, 0, buffer.Length);
             Records.Add(ParseDateTime(buffer));
         }
+        /// <summary>
+        /// Create DateTime from byte array.
+        /// </summary>
+        /// <param name="buffer">Byte array where each byte represent part of a DateTime value. The order of values is seconds, minutes, hours, day, month, year.</param>
+        /// <returns>DateTime that was created from byte array.</returns>
         private DateTime ParseDateTime(byte[] buffer)
         {
             byte year = ByteToHexByte(buffer[5]);

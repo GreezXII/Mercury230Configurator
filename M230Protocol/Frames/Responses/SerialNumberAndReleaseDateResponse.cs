@@ -5,8 +5,15 @@ namespace M230Protocol.Frames.Responses
     public class SerialNumberAndReleaseDateResponse : Response
     {
         public const int Length = 10;
+        /// <summary>
+        /// Serial number of the meter.
+        /// </summary>
         public int SerialNumber { get; private set; }
+        /// <summary>
+        /// Release date of the meter.
+        /// </summary>
         public DateTime ReleaseDate { get; private set; }
+
         public SerialNumberAndReleaseDateResponse(byte[] response) : base(response)
         {
             byte[] serialNumberBuffer = new byte[4];

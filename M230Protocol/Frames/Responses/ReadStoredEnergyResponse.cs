@@ -6,9 +6,21 @@ namespace M230Protocol.Frames.Responses
     public class ReadStoredEnergyResponse : Response
     {
         public const int Length = 19;
+        /// <summary>
+        /// Positive active energy.
+        /// </summary>
         public double ActivePositive { get; private set; }
+        /// <summary>
+        /// Negative active energy.
+        /// </summary>
         public double ActiveNegative { get; private set; }
+        /// <summary>
+        /// Positive reactive energy.
+        /// </summary>
         public double ReactivePositive { get; private set; }
+        /// <summary>
+        /// Negative reactive energy.
+        /// </summary>
         public double ReactiveNegative { get; private set; }
 
         public ReadStoredEnergyResponse(byte[] response) : base(response)

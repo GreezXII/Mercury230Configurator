@@ -5,9 +5,19 @@ namespace M230Protocol.Frames.Responses
     public class ReadStoredEnergyPerPhaseResponse : Response
     {
         public const int Length = 15;
+        /// <summary>
+        /// First AC current wire.
+        /// </summary>
         public double Phase1 { get; private set; }
+        /// <summary>
+        /// Second AC current wire.
+        /// </summary>
         public double Phase2 { get; private set; }
+        /// <summary>
+        /// Third AC current wire.
+        /// </summary>
         public double Phase3 { get; private set; }
+
         public ReadStoredEnergyPerPhaseResponse(byte[] response) : base(response)
         {
             byte[] buffer = new byte[4];

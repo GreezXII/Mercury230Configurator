@@ -6,6 +6,9 @@ namespace M230Protocol.Frames.Responses
     public class LocationResponse : Response
     {
         public const int Length = 7;
+        /// <summary>
+        /// Physical location of the meter.
+        /// </summary>
         public string Location { get; private set; }
         public LocationResponse(byte[] response) : base(response)
         {
