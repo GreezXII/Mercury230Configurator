@@ -1,6 +1,6 @@
 ﻿namespace M230Protocol
 {
-    public enum CommunicationState : byte
+    public enum CommunicationState
     {
         OK,
         WrongCommandOrParameter,

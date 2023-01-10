@@ -1,9 +1,9 @@
 ﻿namespace M230Protocol
 {
-    public enum MeterSettings : byte
+    public enum MeterSettings
     {
-        SerialNumberAndReleaseDate = 0x00,  // Серийный номер и дата выпуска
-        SoftwareVersion = 0x03,             // Версия ПО
-        Location = 0x0B                     // Местоположение
+        SerialNumberAndReleaseDate = 0x00,
+        SoftwareVersion = 0x03,           
+        Location = 0x0B                   
     }
 }
