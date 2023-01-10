@@ -22,12 +22,8 @@ namespace M230Protocol.Frames.Requests
             Journal = (byte)journal;
             RecordNumber = recordNumber;
         }
-        // TODO: Move documentation from specific requests to base Request class
-		/// <summary>
-		/// Create command for transmitting to the meter.
-		/// </summary>
-		/// <returns>Array with command for the meter.</returns>
-		public byte[] Create()
+        /// <inheritdoc cref="Request.Create"/>
+		public override byte[] Create()
         {
             List<byte> requestBody = new() { (byte)RequestType, Journal, RecordNumber };
             return CreateByteArray(requestBody);

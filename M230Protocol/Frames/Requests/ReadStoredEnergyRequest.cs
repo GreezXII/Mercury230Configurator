@@ -38,7 +38,8 @@ namespace M230Protocol.Frames.Requests
             byte result = (byte)((byte)EnergyDataType << 4);
             return (byte)(result | (byte)Month);
         }
-        public byte[] Create()
+        /// <inheritdoc cref="Request.Create"/>
+        public override byte[] Create()
         {
             List<byte> requestBody = new() { (byte)RequestType, CombineMonthAndEnergyDataArray(), (byte)Rate };
             return CreateByteArray(requestBody);

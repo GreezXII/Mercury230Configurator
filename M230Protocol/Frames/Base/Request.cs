@@ -43,5 +43,10 @@ namespace M230Protocol.Frames.Base
             }
             return bytePassword;
         }
+        /// <summary>
+        /// Create command in form of byte array for transmitting to the meter.
+        /// </summary>
+        /// <returns>Byte array that describes command for the meter.</returns>
+        public abstract byte[] Create();
     }
 }

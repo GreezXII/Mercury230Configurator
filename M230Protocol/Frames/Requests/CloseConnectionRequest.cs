@@ -11,11 +11,9 @@ namespace M230Protocol.Frames.Requests
         {
             RequestType = RequestTypes.CloseConnection;
         }
-        /// <summary>
-        /// Create command for transmitting to the meter.
-        /// </summary>
-        /// <returns>Array with command for the meter.</returns>
-        public byte[] Create()
+        
+        /// <inheritdoc cref="Request.Create"/>
+        public override byte[] Create()
         {
             List<byte> requestBody = new() { (byte)RequestType };
             return CreateByteArray(requestBody);

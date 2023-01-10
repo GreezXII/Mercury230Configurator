@@ -22,7 +22,8 @@ namespace M230Protocol.Frames.Requests
             SettingType = (byte)settings;
             Parameters = parameters;
         }
-        public byte[] Create()
+        /// <inheritdoc cref="Request.Create"/>
+        public override byte[] Create()
         {
             List<byte> requestBody = new() { (byte)RequestType, SettingType };
             requestBody.AddRange(Parameters);

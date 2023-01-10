@@ -27,7 +27,8 @@ namespace M230Protocol.Frames.Requests
             location = location.PadRight(4, ' ');
             Location = Encoding.ASCII.GetBytes(location);
         }
-        public byte[] Create()
+        /// <inheritdoc cref="Request.Create"/>
+        public override byte[] Create()
         {
             List<byte> requestBody = new() { (byte)RequestType, ParameterNumber };
             requestBody.AddRange(Location);

@@ -11,7 +11,8 @@ namespace M230Protocol.Frames.Requests
         {
             RequestType = RequestTypes.TestConnection;
         }
-        public byte[] Create()
+        /// <inheritdoc cref="Request.Create"/>
+        public override byte[] Create()
         {
             List<byte> requestBody = new() { (byte)RequestType };
             return CreateByteArray(requestBody);
