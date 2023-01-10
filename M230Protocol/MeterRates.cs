@@ -1,10 +1,10 @@
 ﻿namespace M230Protocol
 {
-    public enum MeterRates : byte
+    public enum MeterRates
     {
-        Sum,    // Сумма тарифов
-        Rate1,  // Тариф 1
-        Rate2,  // Тариф 2
-        Rate3,  // Тариф 3
+        Sum,
+        Tariff1,
+        Tariff2,
+        Tariff3
     }
 }
