@@ -85,7 +85,7 @@ namespace MeterClient
             List<ReadJournalResponse> result = new List<ReadJournalResponse>();
             for (int i = 0; i < 10; i++)
             {
-                result.Add(await ReadJournalRecordAsync(MeterJournals.OnOff, (byte)i));
+                result.Add(await ReadJournalRecordAsync(journal, (byte)i, token));
             }
             return result;
         }
