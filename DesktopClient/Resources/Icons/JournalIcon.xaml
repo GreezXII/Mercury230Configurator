@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="journalIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M512,512z M0,0z M415.594,93.344L396.688,30.781C401.313,27.812 404.438,22.625 404.438,16.703 404.438,7.469 396.969,0 387.719,0L129.891,0C112.5,0 96.609,7.094 85.25,18.5 73.844,29.859 66.734,45.75 66.75,63.125L66.75,470.75C66.75,493.531,85.219,512,108,512L410.5,512C429.688,512,445.25,496.453,445.25,477.266L445.25,127.578C445.25,110.125,432.344,95.844,415.594,93.344z M129.891,92.844C121.625,92.844 114.297,89.531 108.875,84.141 103.469,78.688 100.156,71.375 100.156,63.125 100.156,54.875 103.469,47.547 108.875,42.109 114.297,36.718 121.625,33.406 129.891,33.406L371.875,33.406 389.844,92.844 129.891,92.844z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M230Protocol", "M230Protocol\M230Protocol.csproj", "{67E0CC18-9C73-4BBE-AB26-D3EE4DD868BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeterClient", "MeterClient\MeterClient.csproj", "{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meter", "MeterClient\Meter.csproj", "{26EA2730-865C-4C70-AF5E-DBCE4495CA3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{6A376123-2529-4B6A-8C23-240508DB7578}"
 EndProject

@@ -2,8 +2,25 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DesktopClient"
-             StartupUri="MainWindow.xaml">
+             StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <!--Colors-->
+                <ResourceDictionary Source="Resources/Colors/Colors.xaml"/>
+                
+                <!-- Styles -->
+                <ResourceDictionary Source="Resources/Styles/NavigationBarStyle.xaml"/>
+                
+                <!--Icons-->
+                <ResourceDictionary Source="Resources/Icons/ConnectionIcon.xaml"/>
+                <ResourceDictionary Source="Resources/Icons/MeterIcon.xaml"/>
+                <ResourceDictionary Source="Resources/Icons/EnergyIcon.xaml"/>
+                <ResourceDictionary Source="Resources/Icons/JournalIcon.xaml"/>
+                <ResourceDictionary Source="Resources/Icons/ExitIcon.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

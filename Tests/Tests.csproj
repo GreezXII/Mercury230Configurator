@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\M230Protocol\M230Protocol.csproj" />
-    <ProjectReference Include="..\MeterClient\MeterClient.csproj" />
+    <ProjectReference Include="..\MeterClient\Meter.csproj" />
   </ItemGroup>
 
 </Project>

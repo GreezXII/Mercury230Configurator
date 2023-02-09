@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="meterIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V22 H22 V0 H0 Z">
+                <DrawingGroup Opacity="1">
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M22,22z M0,0z M2,1L20,1 20,2 20.94,2 20.94,20 20,20 20,21 2,21 2,20 1.06,20 1.06,2 2,2 2,1 M3,3L3,19 19,19 19,3 3,3 M4,4L18,4 18,12 4,12 4,4 M5,14L8,14 8,17 5,17 5,14 M12,15L14,15 14,17 12,17 12,15 M15,14L17,14 17,16 15,16 15,14z" />
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>
