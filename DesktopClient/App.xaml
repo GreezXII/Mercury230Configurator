@@ -10,15 +10,19 @@
                 <!--Colors-->
                 <ResourceDictionary Source="Resources/Colors/Colors.xaml"/>
                 
-                <!-- Styles -->
+                <!--Styles-->
                 <ResourceDictionary Source="Resources/Styles/NavigationBarStyle.xaml"/>
-                
+                <ResourceDictionary Source="Resources/Styles/TextBlockStyle.xaml"/>
+
                 <!--Icons-->
                 <ResourceDictionary Source="Resources/Icons/ConnectionIcon.xaml"/>
                 <ResourceDictionary Source="Resources/Icons/MeterIcon.xaml"/>
                 <ResourceDictionary Source="Resources/Icons/EnergyIcon.xaml"/>
                 <ResourceDictionary Source="Resources/Icons/JournalIcon.xaml"/>
                 <ResourceDictionary Source="Resources/Icons/ExitIcon.xaml"/>
+                
+                <!--Fonts-->
+                <ResourceDictionary Source="Resources/Fonts/Fonts.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
