@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <Label Content="Toolbar label"/>
+            <TextBlock Text="Пример текста"/>
         </StatusBar>
         <StackPanel DockPanel.Dock="Left" Background="{StaticResource DarkGrayBrush}">
             <Button Style="{StaticResource NavButtonStyle}">

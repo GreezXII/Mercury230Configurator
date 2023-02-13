@@ -27,6 +27,7 @@
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="5 0 0 0"/>
+                <Setter Property="FontFamily" Value="{DynamicResource VictorMonoFont}"/>
             </Style>
         </Style.Resources>
     </Style>
