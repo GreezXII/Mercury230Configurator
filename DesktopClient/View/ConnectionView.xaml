@@ -6,9 +6,7 @@
              xmlns:local="clr-namespace:DesktopClient.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <GroupBox Header="Параметры подключения" Width="Auto" Height="Auto" 
-              HorizontalAlignment="Left" VerticalAlignment="Top"
-              Margin="10 -10 10 0">
+    <GroupBox Header="Параметры подключения">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

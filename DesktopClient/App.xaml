@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Resources/Styles/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/GroupBoxStyle.xaml"/>
 
                 <!--Icons-->
                 <ResourceDictionary Source="Resources/Icons/ConnectionIcon.xaml"/>
