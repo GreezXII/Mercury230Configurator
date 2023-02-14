@@ -42,6 +42,6 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <Frame/>
+        <Frame Source="ConnectionView.xaml"/>
     </DockPanel>
 </Window>
