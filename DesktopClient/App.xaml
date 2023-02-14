@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="Resources/Styles/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/GroupBoxStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/RadioButtonStyle.xaml"/>
 
                 <!--Icons-->
                 <ResourceDictionary Source="Resources/Icons/ConnectionIcon.xaml"/>
