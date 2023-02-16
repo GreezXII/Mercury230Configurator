@@ -3,33 +3,68 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:DesktopClient.ViewModel"
+        xmlns:views="clr-namespace:DesktopClient.View"
         xmlns:local="clr-namespace:DesktopClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <!--Data templates for view models-->
+    <Window.Resources>
+        <!--Connection-->
+        <DataTemplate DataType="{x:Type vm:ConnectionViewModel}">
+            <views:ConnectionView/>
+        </DataTemplate>
+        <!--About meter-->
+        <DataTemplate DataType="{x:Type vm:AboutMeterViewModel}">
+            <views:AboutMeterView/>
+        </DataTemplate>
+        <!--Energy-->
+        <DataTemplate DataType="{x:Type vm:EnergyViewModel}">
+            <views:EnergyView/>
+        </DataTemplate>
+        <!--Journals-->
+        <DataTemplate DataType="{x:Type vm:JournalsViewModel}">
+            <views:JoudnalsView/>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <!--Main window-->
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="Пример текста"/>
         </StatusBar>
+        <!--Navigation-->
         <StackPanel DockPanel.Dock="Left" Background="{StaticResource DarkGrayBrush}">
-            <Button Style="{StaticResource NavButtonStyle}">
+            <Button Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding SelectViewModel}"
+                    CommandParameter="{Binding ConnectionViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource connectionIcon}"/>
                     <TextBlock Text="Соединение"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            <Button Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding SelectViewModel}"
+                    CommandParameter="{Binding AboutMeterViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource meterIcon}"/>
                     <TextBlock Text="О счетчике"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            <Button Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding SelectViewModel}"
+                    CommandParameter="{Binding EnergyViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource energyIcon}"/>
                     <TextBlock Text="Энергия"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            <Button Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding SelectViewModel}"
+                    CommandParameter="{Binding JournalsViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource journalIcon}"/>
                     <TextBlock Text="Журнал"/>
@@ -42,6 +77,7 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <Frame Source="JournalsView.xaml"/>
+        <!--Content of ViewModels-->
+        <ContentControl Content="{Binding SelectedViewModel}"/>
     </DockPanel>
 </Window>
