@@ -8,9 +8,6 @@
         xmlns:local="clr-namespace:DesktopClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Window.DataContext>
-        <vm:MainViewModel/>
-    </Window.DataContext>
     <!--Data templates for view models-->
     <Window.Resources>
         <!--Connection-->
@@ -38,38 +35,47 @@
         </StatusBar>
         <!--Navigation-->
         <StackPanel DockPanel.Dock="Left" Background="{StaticResource DarkGrayBrush}">
-            <Button Style="{StaticResource NavButtonStyle}">
+            <ToggleButton Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding ChangeSelectedViewModelCommand}"
+                    CommandParameter="{Binding ConnectionViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource connectionIcon}"/>
                     <TextBlock Text="Соединение"/>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            </ToggleButton>
+            <ToggleButton Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding ChangeSelectedViewModelCommand}"
+                    CommandParameter="{Binding AboutMeterViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource meterIcon}"/>
                     <TextBlock Text="О счетчике"/>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            </ToggleButton>
+            <ToggleButton Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding ChangeSelectedViewModelCommand}"
+                    CommandParameter="{Binding EnergyViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource energyIcon}"/>
                     <TextBlock Text="Энергия"/>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            </ToggleButton>
+            <ToggleButton Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding ChangeSelectedViewModelCommand}"
+                    CommandParameter="{Binding JournalsViewModel}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource journalIcon}"/>
                     <TextBlock Text="Журнал"/>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource NavButtonStyle}">
+            </ToggleButton>
+            <ToggleButton Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding CloseAppCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource exitIcon}"/>
                     <TextBlock Text="Выход"/>
                 </StackPanel>
-            </Button>
+            </ToggleButton>
         </StackPanel>
         <!--Content of ViewModels-->
-        <ContentControl/>
+        <ContentControl Content="{Binding SelectedViewModel}"/>
     </DockPanel>
 </Window>
