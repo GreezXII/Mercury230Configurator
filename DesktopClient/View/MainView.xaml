@@ -38,33 +38,25 @@
         </StatusBar>
         <!--Navigation-->
         <StackPanel DockPanel.Dock="Left" Background="{StaticResource DarkGrayBrush}">
-            <Button Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding SelectViewModel}"
-                    CommandParameter="{Binding ConnectionViewModel}">
+            <Button Style="{StaticResource NavButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource connectionIcon}"/>
                     <TextBlock Text="Соединение"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding SelectViewModel}"
-                    CommandParameter="{Binding AboutMeterViewModel}">
+            <Button Style="{StaticResource NavButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource meterIcon}"/>
                     <TextBlock Text="О счетчике"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding SelectViewModel}"
-                    CommandParameter="{Binding EnergyViewModel}">
+            <Button Style="{StaticResource NavButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource energyIcon}"/>
                     <TextBlock Text="Энергия"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding SelectViewModel}"
-                    CommandParameter="{Binding JournalsViewModel}">
+            <Button Style="{StaticResource NavButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource journalIcon}"/>
                     <TextBlock Text="Журнал"/>
@@ -78,6 +70,6 @@
             </Button>
         </StackPanel>
         <!--Content of ViewModels-->
-        <ContentControl Content="{Binding SelectedViewModel}"/>
+        <ContentControl/>
     </DockPanel>
 </Window>
