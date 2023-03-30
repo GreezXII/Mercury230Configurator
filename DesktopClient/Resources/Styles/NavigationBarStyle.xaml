@@ -1,33 +1,38 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="NavButtonStyle" TargetType="ToggleButton">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="NavButtonStyle" TargetType="RadioButton">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0 0 0 1">
-                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1">
+                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="{StaticResource DarkGrayBrush}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Width" Value="150"/>
-        <Setter Property="Height" Value="40px"/>
+        <Setter Property="Background" Value="{StaticResource DarkGrayBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Height" Value="40px" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource RedBrush}"/>
+                <Setter Property="Background" Value="{StaticResource RedBrush}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource RedBrush}" />
             </Trigger>
         </Style.Triggers>
         <Style.Resources>
             <Style TargetType="{x:Type Image}">
-                <Setter Property="Margin" Value="7px"/>
-                <Setter Property="Width" Value="25px"/>
+                <Setter Property="Margin" Value="7px" />
+                <Setter Property="Width" Value="25px" />
             </Style>
             <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="5 0 0 0"/>
-                <Setter Property="FontFamily" Value="{DynamicResource VictorMonoFont}"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="5,0,0,0" />
+                <Setter Property="FontFamily" Value="{DynamicResource VictorMonoFont}" />
             </Style>
         </Style.Resources>
     </Style>
