@@ -2,5 +2,6 @@
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Margin" Value="10,2,10,2" />
         <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 </ResourceDictionary>

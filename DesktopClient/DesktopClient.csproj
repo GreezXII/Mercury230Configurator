@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\M230Protocol\M230Protocol.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Fonts\VictorMono-Regular.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
