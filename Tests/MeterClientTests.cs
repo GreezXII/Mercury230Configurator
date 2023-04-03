@@ -1,23 +1,29 @@
 using MeterClient;
 using M230Protocol;
 using M230Protocol.Frames.Responses;
+using M230Protocol.Frames.Requests;
+using System.Security;
+using M230Protocol.Frames.Base;
 
 namespace Tests
 {
     [TestClass]
     public class MeterClientTests
     {
-        static Meter Meter = new Meter(89, "COM5");
-        static SerialPortClient SerialPortClient { get; set; }
+        static Meter Meter = new Meter(89, "COM3");
+        static SerialPortClient? SerialPortClient { get; set; }
         CancellationToken Token { get; set; }
         static readonly string userPassword = "111111";
         static readonly string adminPassword = "222222";
 
         [TestMethod]
         [ClassInitialize]
-        public static async Task InitializeMeter(TestContext TestContext)
+        public static void InitializeMeter(TestContext TestContext)
         {
-            Meter.OpenConnectionAsync(MeterAccessLevels.User, userPassword).Wait();
+            var secureString = new SecureString();
+            foreach (char c in userPassword)
+                secureString.AppendChar(c);
+            Meter.OpenConnectionAsync(MeterAccessLevels.User, secureString).Wait();
         }
 
         [TestMethod]
@@ -32,7 +38,7 @@ namespace Tests
         {
             List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OnOff);
         }
-        
+
         [TestMethod]
         public async Task ReadJournalRecord_Phase1OnOff_Success()
         {
@@ -76,50 +82,50 @@ namespace Tests
         }
 
         // TODO: add to test separate rates?
-		[TestMethod]
-		public async Task ReadStoredEnergyFromReset_Success()
-		{
+        [TestMethod]
+        public async Task ReadStoredEnergyFromReset_Success()
+        {
             var result = await Meter.ReadStoredEnergyFromResetAsync(MeterRates.Sum);
-		}
+        }
 
-		[TestMethod]
-		public async Task ReadStoredEnergyCurrentYear_Success()
-		{
-			var result = await Meter.ReadStoredEnergyCurrentYearAsync(MeterRates.Sum);
-		}
+        [TestMethod]
+        public async Task ReadStoredEnergyCurrentYear_Success()
+        {
+            var result = await Meter.ReadStoredEnergyCurrentYearAsync(MeterRates.Sum);
+        }
 
-		[TestMethod]
-		public async Task ReadStoredEnergyPastYear_Success()
-		{
-			var result = await Meter.ReadStoredEnergyPastYearAsync(MeterRates.Sum);
-		}
+        [TestMethod]
+        public async Task ReadStoredEnergyPastYear_Success()
+        {
+            var result = await Meter.ReadStoredEnergyPastYearAsync(MeterRates.Sum);
+        }
 
-		[TestMethod]
-		public async Task ReadStoredEnergyCurrentDay_Success()
-		{
-			var result = await Meter.ReadStoredEnergyCurrentDayAsync(MeterRates.Sum);
-		}
+        [TestMethod]
+        public async Task ReadStoredEnergyCurrentDay_Success()
+        {
+            var result = await Meter.ReadStoredEnergyCurrentDayAsync(MeterRates.Sum);
+        }
 
-		[TestMethod]
-		public async Task ReadStoredEnergyPastDay_Success()
-		{
-			var result = await Meter.ReadStoredEnergyPastDayAsync(MeterRates.Sum);
-		}
+        [TestMethod]
+        public async Task ReadStoredEnergyPastDay_Success()
+        {
+            var result = await Meter.ReadStoredEnergyPastDayAsync(MeterRates.Sum);
+        }
 
-		[TestMethod]
-		public async Task ReadStoredEnergyByMonth_Success()
-		{
+        [TestMethod]
+        public async Task ReadStoredEnergyByMonth_Success()
+        {
             foreach (Months month in Enum.GetValues(typeof(Months)))
             {
                 await Meter.ReadStoredEnergyByMonthAsync(MeterRates.Sum, month);
-			}
-		}
+            }
+        }
 
-		[TestMethod]
-		public async Task ReadStoredEnergyPerPhases_Success()
-		{
+        [TestMethod]
+        public async Task ReadStoredEnergyPerPhases_Success()
+        {
             var result = await Meter.ReadStoredEnergyPerPhasesAsync(MeterRates.Sum);
-		}
+        }
 
         [TestMethod]
         public async Task ReadSerialNumberAndReleaseDate_Success()
@@ -134,12 +140,20 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task ReadSoftwareVersion()
+        public async Task ReadSoftwareVersion_Success()
         {
             var result = await Meter.ReadSoftwareVersionAsync();
         }
 
-		[TestMethod]
+        [TestMethod]
+        public void SecureStringToByteArray_Success()
+        {
+            SecureString ss = new SecureString();
+            "123456".ToList().ForEach(c => ss.AppendChar(c));
+            var request = new OpenConnectionRequest(83, MeterAccessLevels.Admin, ss);
+        }
+
+        [TestMethod]
         [ClassCleanup]
         public static async Task CloseConnection()
         {

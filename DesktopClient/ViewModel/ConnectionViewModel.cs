@@ -1,13 +1,25 @@
-﻿using M230Protocol;
+﻿using System;
+using System.IO.Ports;
+using M230Protocol;
+using MeterClient;
+using Microsoft.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+using CommunityToolkit.Mvvm.Input;
+using System.Windows.Controls;
+using System.Threading.Tasks;
+using M230Protocol.Frames.Responses;
 
 namespace DesktopClient.ViewModel
 {
-    class ConnectionViewModel : ObservableObject
+    partial class ConnectionViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private string? _address;
+
+        [ObservableProperty]
+        private string? _password;
+
         public string[] AccessLevelNames { get; }
-        MeterAccessLevels _selectedAccessLevel;
         string? _selectedAccessLevelName;
         public string? SelectedAccessLevelName
         {
@@ -18,13 +30,33 @@ namespace DesktopClient.ViewModel
                 SetMeterAccessLevel(ref _selectedAccessLevel, SelectedAccessLevelName);
             }
         }
+        MeterAccessLevels _selectedAccessLevel;
+
+        public string[] serialPortsNames { get; }
+        public string? selectedSerialPort { get; set; }
+
+        public Meter Meter { get; }
 
         public ConnectionViewModel()
         {
+            // Init access levels
             AccessLevelNames = new string[] { "Пользователь", "Администратор" };
             SelectedAccessLevelName = AccessLevelNames[0];
             _selectedAccessLevel = MeterAccessLevels.User;
+
+            // Init serial ports
+            serialPortsNames = SerialPort.GetPortNames();
+            if (serialPortsNames.Length > 0)
+                selectedSerialPort = serialPortsNames[0];
+
+            // Init Meter
+            Meter = App.Current.Services.GetService<Meter>() ?? throw new ArgumentNullException("Не удалось создать экземпляр класса Meter.");
+
+            // Init command
+            OpenConnectionCommand = new AsyncRelayCommand<PasswordBox>(OpenConnection);
         }
+
+        public IRelayCommand OpenConnectionCommand { get; }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)
         {
@@ -39,6 +71,15 @@ namespace DesktopClient.ViewModel
                 default:
                     throw new ArgumentException("Передан неизвестный уровень доступа.");
             }
+        }
+
+        private Task<CommunicationStateResponse> OpenConnection(PasswordBox? passwordBox)
+        {
+            ArgumentNullException.ThrowIfNull(passwordBox?.SecurePassword);
+            ArgumentNullException.ThrowIfNull(Address);
+            ArgumentNullException.ThrowIfNull(selectedSerialPort);
+
+            return Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword);
         }
     }
 }

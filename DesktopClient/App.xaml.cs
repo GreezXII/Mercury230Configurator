@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using DesktopClient.ViewModel;
+using MeterClient;
 
 namespace DesktopClient
 {
@@ -28,6 +29,7 @@ namespace DesktopClient
             services.AddSingleton<AboutMeterViewModel>();
             services.AddSingleton<JournalsViewModel>();
             services.AddSingleton<EnergyViewModel>();
+            services.AddSingleton<Meter>();
 
             return services.BuildServiceProvider();
         }

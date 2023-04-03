@@ -24,7 +24,7 @@ namespace DesktopClient.ViewModel
             _aboutMeterViewModel = App.Current.Services.GetService<AboutMeterViewModel>();
             _journalsViewModel = App.Current.Services.GetService<JournalsViewModel>();
             _energyViewModel = App.Current.Services.GetService<EnergyViewModel>();
-            SelectedViewModel = _connectionViewModel;
+            _selectedViewModel = _connectionViewModel;
         }
 
         [RelayCommand]

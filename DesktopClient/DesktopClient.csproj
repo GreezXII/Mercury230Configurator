@@ -10,10 +10,12 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\M230Protocol\M230Protocol.csproj" />
+    <ProjectReference Include="..\MeterClient\Meter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

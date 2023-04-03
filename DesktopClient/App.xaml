@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="Resources/Styles/NavigationBarStyle.xaml" />
                 <ResourceDictionary Source="Resources/Styles/TextBlockStyle.xaml" />
                 <ResourceDictionary Source="Resources/Styles/TextBoxStyle.xaml" />
+                <ResourceDictionary Source="Resources/Styles/PasswordBoxStyle.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ComboBoxStyle.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Resources/Styles/GroupBoxStyle.xaml" />

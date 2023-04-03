@@ -2,13 +2,16 @@
 using M230Protocol.Exceptions;
 using M230Protocol.Frames.Requests;
 using M230Protocol.Frames.Responses;
+using System.Security;
 
 namespace MeterClient
 {
-    public class Meter
-    {
-        public byte Address { get; set; }
-        private SerialPortClient SerialPort { get; set; }
+	public class Meter
+	{
+		public byte Address { get; set; }
+		private SerialPortClient SerialPort { get; set; }
+
+        public Meter() => SerialPort = new SerialPortClient();
         public Meter(byte address, string portName)
         {
             Address = address;
@@ -35,7 +38,7 @@ namespace MeterClient
 		/// <param name="password">Confirms the right to access level.</param>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
 		/// <returns>A task that returns <see cref="CommunicationStateResponse"/>.</returns>
-		public async Task<CommunicationStateResponse> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, string password, CancellationToken token = default)
+		public async Task<CommunicationStateResponse> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, SecureString password, CancellationToken token = default)
         {
             OpenConnectionRequest request = new(Address, meterAccessLevel, password);
             byte[] outputBuffer = request.Create();

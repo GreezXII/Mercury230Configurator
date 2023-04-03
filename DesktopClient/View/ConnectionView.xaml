@@ -23,7 +23,7 @@
             </Grid.RowDefinitions>
             <!--  Meter address  -->
             <TextBlock Text="Адрес счётчика" />
-            <TextBox Grid.Column="1" />
+            <TextBox Grid.Column="1" Text="{Binding Address}" />
             <!--  Access level  -->
             <TextBlock Grid.Row="1" Text="Уровень доступа" />
             <ComboBox
@@ -33,14 +33,23 @@
                 SelectedItem="{Binding SelectedAccessLevelName}" />
             <!--  Password  -->
             <TextBlock Grid.Row="2" Text="Пароль" />
-            <TextBox Grid.Row="2" Grid.Column="1" />
+            <PasswordBox
+                x:Name="passwordBox"
+                Grid.Row="2"
+                Grid.Column="1" />
             <!--  Com port  -->
             <TextBlock Grid.Row="3" Text="Com-порт" />
-            <ComboBox Grid.Row="3" Grid.Column="1" />
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                ItemsSource="{Binding serialPortsNames}"
+                SelectedItem="{Binding selectedSerialPort}" />
             <!--  Connect button  -->
             <Button
                 Grid.Row="4"
                 Grid.Column="1"
+                Command="{Binding OpenConnectionCommand}"
+                CommandParameter="{Binding ElementName=passwordBox}"
                 Content="Соединить" />
         </Grid>
     </GroupBox>
