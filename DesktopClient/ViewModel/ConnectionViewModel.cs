@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using M230Protocol.Frames.Responses;
 using DesktopClient.Service;
 using System.Windows;
-using System.ComponentModel;
 
 namespace DesktopClient.ViewModel
 {
@@ -36,7 +35,7 @@ namespace DesktopClient.ViewModel
         public string? selectedSerialPort { get; set; }
 
         public Meter Meter { get; }
-        ProgressService? ProgressService;
+        public ProgressService ProgressService { get; }
 
         public ConnectionViewModel()
         {
@@ -52,7 +51,7 @@ namespace DesktopClient.ViewModel
 
             // Init Meter
             Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
-            ProgressService = App.Current.Services.GetService<ProgressService>();
+            ProgressService = App.Current.Services.GetService<ProgressService>() ?? throw new NullReferenceException("Не удалось получить Progress Service."); ;
         }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)

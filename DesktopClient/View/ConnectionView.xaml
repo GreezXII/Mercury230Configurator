@@ -12,6 +12,7 @@
     <UserControl.Resources>
         <!--  Converters  -->
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+        <conv:InverseBoolConverter x:Key="InverseBool" />
     </UserControl.Resources>
 
     <GroupBox Header="Параметры подключения">
@@ -29,12 +30,16 @@
             </Grid.RowDefinitions>
             <!--  Meter address  -->
             <TextBlock Text="Адрес счётчика" />
-            <TextBox Grid.Column="1" Text="{Binding Address}" />
+            <TextBox
+                Grid.Column="1"
+                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
+                Text="{Binding Address}" />
             <!--  Access level  -->
             <TextBlock Grid.Row="1" Text="Уровень доступа" />
             <ComboBox
                 Grid.Row="1"
                 Grid.Column="1"
+                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 ItemsSource="{Binding AccessLevelNames}"
                 SelectedItem="{Binding SelectedAccessLevelName}" />
             <!--  Password  -->
@@ -42,12 +47,14 @@
             <PasswordBox
                 x:Name="passwordBox"
                 Grid.Row="2"
-                Grid.Column="1" />
+                Grid.Column="1"
+                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}" />
             <!--  Com port  -->
             <TextBlock Grid.Row="3" Text="Com-порт" />
             <ComboBox
                 Grid.Row="3"
                 Grid.Column="1"
+                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 ItemsSource="{Binding serialPortsNames}"
                 SelectedItem="{Binding selectedSerialPort}" />
             <!--  Connect button  -->
