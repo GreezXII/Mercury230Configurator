@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DesktopClient.Service;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DesktopClient.ViewModel
@@ -18,8 +19,13 @@ namespace DesktopClient.ViewModel
         [ObservableProperty]
         public ObservableObject? _selectedViewModel;
 
+        [ObservableProperty]
+        ProgressService? _progressService;
+
         public MainViewModel()
         {
+            ProgressService = App.Current.Services.GetService<ProgressService>();
+
             _connectionViewModel = App.Current.Services.GetService<ConnectionViewModel>();
             _aboutMeterViewModel = App.Current.Services.GetService<AboutMeterViewModel>();
             _journalsViewModel = App.Current.Services.GetService<JournalsViewModel>();

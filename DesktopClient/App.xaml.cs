@@ -3,12 +3,10 @@ using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using DesktopClient.ViewModel;
 using MeterClient;
+using DesktopClient.Service;
 
 namespace DesktopClient
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public new static App Current => (App) Application.Current;
@@ -17,7 +15,7 @@ namespace DesktopClient
         public App()
         {
             Services = ConfigureServices();
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private static IServiceProvider ConfigureServices()
@@ -30,6 +28,7 @@ namespace DesktopClient
             services.AddSingleton<JournalsViewModel>();
             services.AddSingleton<EnergyViewModel>();
             services.AddSingleton<Meter>();
+            services.AddSingleton<ProgressService>();
 
             return services.BuildServiceProvider();
         }

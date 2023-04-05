@@ -9,7 +9,7 @@ namespace MeterClient
     {
         public SerialPort SerialPort { get; private set; }
         public SerialPortClient() => SerialPort = new SerialPort();
-        public SerialPortClient(string portName, int timeout = 200000)
+        public SerialPortClient(string portName, int timeout = 5000)
         {
             SerialPort = new SerialPort
             {

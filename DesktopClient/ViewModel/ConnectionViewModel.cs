@@ -8,6 +8,9 @@ using CommunityToolkit.Mvvm.Input;
 using System.Windows.Controls;
 using System.Threading.Tasks;
 using M230Protocol.Frames.Responses;
+using DesktopClient.Service;
+using System.Windows;
+using System.ComponentModel;
 
 namespace DesktopClient.ViewModel
 {
@@ -15,9 +18,6 @@ namespace DesktopClient.ViewModel
     {
         [ObservableProperty]
         private string? _address;
-
-        [ObservableProperty]
-        private string? _password;
 
         public string[] AccessLevelNames { get; }
         string? _selectedAccessLevelName;
@@ -36,6 +36,7 @@ namespace DesktopClient.ViewModel
         public string? selectedSerialPort { get; set; }
 
         public Meter Meter { get; }
+        ProgressService? ProgressService;
 
         public ConnectionViewModel()
         {
@@ -50,13 +51,9 @@ namespace DesktopClient.ViewModel
                 selectedSerialPort = serialPortsNames[0];
 
             // Init Meter
-            Meter = App.Current.Services.GetService<Meter>() ?? throw new ArgumentNullException("Не удалось создать экземпляр класса Meter.");
-
-            // Init command
-            OpenConnectionCommand = new AsyncRelayCommand<PasswordBox>(OpenConnection);
+            Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
+            ProgressService = App.Current.Services.GetService<ProgressService>();
         }
-
-        public IRelayCommand OpenConnectionCommand { get; }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)
         {
@@ -73,13 +70,30 @@ namespace DesktopClient.ViewModel
             }
         }
 
-        private Task<CommunicationStateResponse> OpenConnection(PasswordBox? passwordBox)
+        [RelayCommand]
+        private async Task OpenConnection(PasswordBox? passwordBox)
         {
-            ArgumentNullException.ThrowIfNull(passwordBox?.SecurePassword);
-            ArgumentNullException.ThrowIfNull(Address);
-            ArgumentNullException.ThrowIfNull(selectedSerialPort);
+            if (Address == null)
+            {
+                MessageBox.Show("Адрес счетчика не может быть пустым.", "Ошибка", MessageBoxButton.OK);
+                return;
+            }
+            if (passwordBox?.SecurePassword == null)
+            {
+                MessageBox.Show("Пароль не может быть null.", "Ошибка", MessageBoxButton.OK);
+                return;
+            }
+            if (selectedSerialPort == null)
+            {
+                MessageBox.Show("Не выбран Com-порт.", "Ошибка", MessageBoxButton.OK);
+                return;
+            }
 
-            return Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword);
+            ProgressService.IsTaskRunning = true;
+            CommunicationStateResponse response = await Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword);
+            if (response.State != CommunicationState.OK)
+                MessageBox.Show("Not ok");
+            ProgressService.IsTaskRunning = false;
         }
     }
 }

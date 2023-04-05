@@ -3,7 +3,6 @@ using M230Protocol;
 using M230Protocol.Frames.Responses;
 using M230Protocol.Frames.Requests;
 using System.Security;
-using M230Protocol.Frames.Base;
 
 namespace Tests
 {
