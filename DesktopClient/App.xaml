@@ -12,14 +12,15 @@
                 <ResourceDictionary Source="Resources/Colors/Colors.xaml" />
 
                 <!--  Styles  -->
-                <ResourceDictionary Source="Resources/Styles/NavigationBarStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/TextBlockStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/TextBoxStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/PasswordBoxStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/ComboBoxStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/ButtonStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/GroupBoxStyle.xaml" />
-                <ResourceDictionary Source="Resources/Styles/RadioButtonStyle.xaml" />
+                <ResourceDictionary Source="Styles/NavigationBarStyle.xaml" />
+                <ResourceDictionary Source="Styles/TextBlockStyle.xaml" />
+                <ResourceDictionary Source="Styles/TextBoxStyle.xaml" />
+                <ResourceDictionary Source="Styles/PasswordBoxStyle.xaml" />
+                <ResourceDictionary Source="Styles/ComboBoxStyle.xaml" />
+                <ResourceDictionary Source="Styles/ButtonStyle.xaml" />
+                <ResourceDictionary Source="Styles/GroupBoxStyle.xaml" />
+                <ResourceDictionary Source="Styles/RadioButtonStyle.xaml" />
+                <ResourceDictionary Source="Styles/ContentControlStyle.xaml" />
 
                 <!--  Icons  -->
                 <ResourceDictionary Source="Resources/Icons/ConnectionIcon.xaml" />

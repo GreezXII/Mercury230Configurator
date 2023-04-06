@@ -28,8 +28,8 @@ namespace Tests
         [TestMethod]
         public async Task TestLink()
         {
-            CommunicationStateResponse result = await Meter.TestLinkAsync();
-            Assert.AreEqual(result.State, CommunicationState.OK);
+            CommunicationState result = await Meter.TestLinkAsync();
+            Assert.AreEqual(result, CommunicationState.OK);
         }
 
         [TestMethod]

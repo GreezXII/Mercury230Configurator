@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace DesktopClient.Resources.Converters
+namespace DesktopClient.Helpers.Converters
 {
     public class InverseBoolConverter : IValueConverter
     {

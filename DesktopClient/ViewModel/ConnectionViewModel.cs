@@ -9,12 +9,20 @@ using System.Windows.Controls;
 using System.Threading.Tasks;
 using DesktopClient.Service;
 using System.Windows;
+using System.ComponentModel.DataAnnotations;
+using DesktopClient.Helpers.Validation;
 
 namespace DesktopClient.ViewModel
 {
-    partial class ConnectionViewModel : ObservableObject
+    partial class ConnectionViewModel : ObservableValidator
     {
         [ObservableProperty]
+        private bool _IsError;
+
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [MinLength(1)]
+        [Digits]
         private string? _address;
 
         public string[] AccessLevelNames { get; }
@@ -50,7 +58,7 @@ namespace DesktopClient.ViewModel
 
             // Init Meter
             Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
-            ProgressService = App.Current.Services.GetService<ProgressService>() ?? throw new NullReferenceException("Не удалось получить Progress Service."); ;
+            ProgressService = App.Current.Services.GetService<ProgressService>() ?? throw new NullReferenceException("Не удалось получить Progress Service.");
         }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)
@@ -74,13 +82,12 @@ namespace DesktopClient.ViewModel
             ProgressService.IsTaskRunning = true;
             try
             {
-                byte address;
-                if (Address == null || !byte.TryParse(Address, out address))
+                if (Address == null || !byte.TryParse(Address, out byte address))
                 {
                     MessageBox.Show("Неверно задан адрес счетчика.", "Ошибка", MessageBoxButton.OK);
                     return;
                 }
-                if (passwordBox?.SecurePassword == null)
+                if (passwordBox == null)
                 {
                     MessageBox.Show("Пароль не может быть null.", "Ошибка", MessageBoxButton.OK);
                     return;

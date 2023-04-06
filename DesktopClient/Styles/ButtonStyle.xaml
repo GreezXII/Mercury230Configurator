@@ -15,6 +15,12 @@
         <Setter Property="Height" Value="25" />
         <Setter Property="Margin" Value="10,5,10,5" />
         <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Background" Value="{StaticResource EnabledButtonBackgroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource DisabledButtonBackgroundBrush}" />
+            </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource RedBrush}" />
                 <Setter Property="Foreground" Value="White" />
