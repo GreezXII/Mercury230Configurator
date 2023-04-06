@@ -9,7 +9,7 @@ namespace MeterClient
 	public class Meter
 	{
 		public byte Address { get; set; }
-		private SerialPortClient SerialPort { get; set; }
+		public SerialPortClient SerialPort { get; set; }
 
         public Meter() => SerialPort = new SerialPortClient();
         public Meter(byte address, string portName)
@@ -22,13 +22,14 @@ namespace MeterClient
 		/// Test physical connection with a meter.
 		/// </summary>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="CommunicationStateResponse"/></returns>
-		public async Task<CommunicationStateResponse> TestLinkAsync(CancellationToken token = default)
+		/// <returns>A task that returns <see cref="CommunicationState"/></returns>
+		public async Task<CommunicationState> TestLinkAsync(CancellationToken token = default)
         {
-            TestLinkRequest request = new TestLinkRequest(Address);
+            var request = new TestLinkRequest(Address);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
-            return new CommunicationStateResponse(inputBuffer);
+            var response = new CommunicationStateResponse(inputBuffer);
+			return response.State;
         }
 
 		/// <summary>
@@ -37,13 +38,14 @@ namespace MeterClient
 		/// <param name="meterAccessLevel">Defines allowed requests.</param>
 		/// <param name="password">Confirms the right to access level.</param>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="CommunicationStateResponse"/>.</returns>
-		public async Task<CommunicationStateResponse> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, SecureString password, CancellationToken token = default)
+		/// <returns>A task that returns <see cref="CommunicationState"/>.</returns>
+		public async Task<CommunicationState> OpenConnectionAsync(MeterAccessLevels meterAccessLevel, SecureString password, CancellationToken token = default)
         {
-            OpenConnectionRequest request = new(Address, meterAccessLevel, password);
+            var request = new OpenConnectionRequest(Address, meterAccessLevel, password);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
-            return new CommunicationStateResponse(inputBuffer);
+            var response = new CommunicationStateResponse(inputBuffer);
+			return response.State;
         }
 
 		/// <summary>

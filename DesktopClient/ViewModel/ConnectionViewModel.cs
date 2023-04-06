@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Controls;
 using System.Threading.Tasks;
-using M230Protocol.Frames.Responses;
 using DesktopClient.Service;
 using System.Windows;
 
@@ -34,7 +33,7 @@ namespace DesktopClient.ViewModel
         public string[] serialPortsNames { get; }
         public string? selectedSerialPort { get; set; }
 
-        public Meter Meter { get; }
+        public Meter Meter { get; set; }
         public ProgressService ProgressService { get; }
 
         public ConnectionViewModel()
@@ -70,29 +69,50 @@ namespace DesktopClient.ViewModel
         }
 
         [RelayCommand]
-        private async Task OpenConnection(PasswordBox? passwordBox)
+        private async Task OpenConnectionAsync(PasswordBox? passwordBox)
         {
-            if (Address == null)
-            {
-                MessageBox.Show("Адрес счетчика не может быть пустым.", "Ошибка", MessageBoxButton.OK);
-                return;
-            }
-            if (passwordBox?.SecurePassword == null)
-            {
-                MessageBox.Show("Пароль не может быть null.", "Ошибка", MessageBoxButton.OK);
-                return;
-            }
-            if (selectedSerialPort == null)
-            {
-                MessageBox.Show("Не выбран Com-порт.", "Ошибка", MessageBoxButton.OK);
-                return;
-            }
-
             ProgressService.IsTaskRunning = true;
-            CommunicationStateResponse response = await Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword);
-            if (response.State != CommunicationState.OK)
-                MessageBox.Show("Not ok");
-            ProgressService.IsTaskRunning = false;
+            try
+            {
+                byte address;
+                if (Address == null || !byte.TryParse(Address, out address))
+                {
+                    MessageBox.Show("Неверно задан адрес счетчика.", "Ошибка", MessageBoxButton.OK);
+                    return;
+                }
+                if (passwordBox?.SecurePassword == null)
+                {
+                    MessageBox.Show("Пароль не может быть null.", "Ошибка", MessageBoxButton.OK);
+                    return;
+                }
+                if (selectedSerialPort == null)
+                {
+                    MessageBox.Show("Не выбран Com-порт.", "Ошибка", MessageBoxButton.OK);
+                    return;
+                }
+                Meter = new Meter(address, selectedSerialPort);
+                CommunicationState linkTest = await Meter.TestLinkAsync();
+                if (linkTest != CommunicationState.OK)
+                {
+                    MessageBox.Show("Не удалось установить физическое соединение со счётчиком. Проверьте подключение.", "Ошибка", MessageBoxButton.OK);
+                    return;
+                }
+                CommunicationState authorizationState = await Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword);
+                if (authorizationState != CommunicationState.OK)
+                    MessageBox.Show("Не удалось выполнить авторизацию. Проверьте правильность ввода пароля.", "Ошибка", MessageBoxButton.OK);
+            }
+            catch (TimeoutException)
+            {
+                MessageBox.Show("Превышено время ожидания запроса.", "Ошибка", MessageBoxButton.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK);
+            }
+            finally
+            {
+                ProgressService.IsTaskRunning = false;
+            }
         }
     }
 }

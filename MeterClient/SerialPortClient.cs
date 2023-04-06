@@ -8,8 +8,8 @@ namespace MeterClient
 	public class SerialPortClient
     {
         public SerialPort SerialPort { get; private set; }
-        public SerialPortClient() => SerialPort = new SerialPort();
-        public SerialPortClient(string portName, int timeout = 5000)
+        public SerialPortClient() : this("COM99") { }
+        public SerialPortClient(string portName, int timeout = 10000)
         {
             SerialPort = new SerialPort
             {
@@ -39,7 +39,7 @@ namespace MeterClient
 
 				byte[] inputData = new byte[inputDataLength];
 				int offset = 0;
-				while (inputDataLength > 0)
+                while (inputDataLength > 0)
                 {
                     if (token.IsCancellationRequested)
                         throw new OperationCanceledException();
@@ -67,6 +67,6 @@ namespace MeterClient
                 return await readFromSerialPortTask;
             else
                 throw new TimeoutException();
-		}
-	}
+        }
+    }
 }
