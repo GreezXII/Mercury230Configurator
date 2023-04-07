@@ -27,6 +27,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!--  Meter address  -->
             <TextBlock Text="Адрес счётчика" />
@@ -60,17 +61,19 @@
             <!--  Connect button  -->
             <Button
                 Grid.Row="4"
-                Command="{Binding CancelConnectionCommand}"
-                CommandParameter="{Binding ElementName=passwordBox}"
-                Content="Отменить"
-                IsEnabled="{Binding HasErrors, Converter={StaticResource InverseBool}}" />
-            <Button
-                Grid.Row="4"
                 Grid.Column="1"
                 Command="{Binding OpenConnectionCommand}"
                 CommandParameter="{Binding ElementName=passwordBox}"
                 Content="Соединить"
                 IsEnabled="{Binding HasErrors, Converter={StaticResource InverseBool}}" />
+            <Button
+                Grid.Row="4"
+                Grid.Column="1"
+                Command="{Binding CancelConnectionCommand}"
+                CommandParameter="{Binding ElementName=passwordBox}"
+                Content="Отменить"
+                IsEnabled="{Binding HasErrors, Converter={StaticResource InverseBool}}"
+                Visibility="{Binding OpenConnectionCommand.IsRunning, Converter={StaticResource BoolToVisibility}}" />
         </Grid>
     </GroupBox>
 </UserControl>
