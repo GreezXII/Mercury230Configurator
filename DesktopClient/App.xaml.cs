@@ -29,6 +29,7 @@ namespace DesktopClient
             services.AddSingleton<EnergyViewModel>();
             services.AddSingleton<Meter>();
             services.AddSingleton<ProgressService>();
+            services.AddSingleton<MeterConnectionService>();
 
             return services.BuildServiceProvider();
         }

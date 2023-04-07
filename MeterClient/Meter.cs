@@ -45,7 +45,7 @@ namespace MeterClient
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
             var response = new CommunicationStateResponse(inputBuffer);
-			return response.State;
+            return response.State;
         }
 
 		/// <summary>
@@ -53,12 +53,13 @@ namespace MeterClient
 		/// </summary>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
 		/// <returns>A task that returns <see cref="CommunicationStateResponse"/>.</returns>
-		public async Task<CommunicationStateResponse> CloseConnectionAsync(CancellationToken token = default)
+		public async Task<CommunicationState> CloseConnectionAsync(CancellationToken token = default)
         {
             CloseConnectionRequest request = new CloseConnectionRequest(Address);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
-            return new CommunicationStateResponse(inputBuffer);
+            var response = new CommunicationStateResponse(inputBuffer);
+            return response.State;
         }
 
 		/// <summary>

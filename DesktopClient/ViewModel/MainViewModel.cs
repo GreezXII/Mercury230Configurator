@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Service;
+using MeterClient;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DesktopClient.ViewModel
@@ -19,11 +20,14 @@ namespace DesktopClient.ViewModel
         [ObservableProperty]
         public ObservableObject? _selectedViewModel;
 
-        [ObservableProperty]
-        ProgressService? _progressService;
+        public ProgressService? ProgressService { get; }
+        public MeterConnectionService? MeterConnectionService { get; }
+
+        public Meter? Meter { get; set; }
 
         public MainViewModel()
         {
+            MeterConnectionService = App.Current.Services.GetService<MeterConnectionService>();
             ProgressService = App.Current.Services.GetService<ProgressService>();
 
             _connectionViewModel = App.Current.Services.GetService<ConnectionViewModel>();

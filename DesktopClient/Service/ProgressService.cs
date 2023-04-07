@@ -14,7 +14,7 @@ namespace DesktopClient.Service
             set
             {
                 SetProperty(ref _isTaskRunning, value);
-                Message = value == true ? taskRunningMessage : taskNotRunningMessage;
+                Message = value ? taskRunningMessage : taskNotRunningMessage;
             }
         }
 

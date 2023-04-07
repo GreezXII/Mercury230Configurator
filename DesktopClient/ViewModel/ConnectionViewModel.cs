@@ -39,11 +39,12 @@ namespace DesktopClient.ViewModel
         }
         MeterAccessLevels _selectedAccessLevel;
 
-        public string[] serialPortsNames { get; }
-        public string? selectedSerialPort { get; set; }
+        public string[] SerialPortsNames { get; }
+        public string? SelectedSerialPort { get; set; }
 
         public Meter Meter { get; set; }
         public ProgressService ProgressService { get; }
+        public MeterConnectionService MeterConnectionService { get; }
 
         public ConnectionViewModel()
         {
@@ -53,13 +54,14 @@ namespace DesktopClient.ViewModel
             _selectedAccessLevel = MeterAccessLevels.User;
 
             // Init serial ports
-            serialPortsNames = SerialPort.GetPortNames();
-            if (serialPortsNames.Length > 0)
-                selectedSerialPort = serialPortsNames[0];
+            SerialPortsNames = SerialPort.GetPortNames();
+            if (SerialPortsNames.Length > 0)
+                SelectedSerialPort = SerialPortsNames[0];
 
             // Init Meter
             Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
-            ProgressService = App.Current.Services.GetService<ProgressService>() ?? throw new NullReferenceException("Не удалось получить Progress Service.");
+            ProgressService = App.Current.Services.GetService<ProgressService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса ProgressService.");
+            MeterConnectionService = App.Current.Services.GetService<MeterConnectionService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса MeterConnectionService.");
         }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)
@@ -93,12 +95,12 @@ namespace DesktopClient.ViewModel
                     MessageBox.Show("Пароль не может быть null.", "Ошибка", MessageBoxButton.OK);
                     return;
                 }
-                if (selectedSerialPort == null)
+                if (SelectedSerialPort == null)
                 {
                     MessageBox.Show("Не выбран Com-порт.", "Ошибка", MessageBoxButton.OK);
                     return;
                 }
-                Meter = new Meter(address, selectedSerialPort);
+                Meter = new Meter(address, SelectedSerialPort);
                 CommunicationState linkTest = await Meter.TestLinkAsync(token);
                 if (linkTest != CommunicationState.OK)
                 {
@@ -107,7 +109,11 @@ namespace DesktopClient.ViewModel
                 }
                 CommunicationState authorizationState = await Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword, token);
                 if (authorizationState != CommunicationState.OK)
+                {
                     MessageBox.Show("Не удалось выполнить авторизацию. Проверьте правильность ввода пароля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+                MeterConnectionService.IsConnected = true;
             }
             catch (OperationCanceledException) {  }
             catch (TimeoutException)
