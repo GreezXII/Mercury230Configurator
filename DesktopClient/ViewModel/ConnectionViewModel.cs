@@ -11,6 +11,7 @@ using DesktopClient.Service;
 using System.Windows;
 using System.ComponentModel.DataAnnotations;
 using DesktopClient.Helpers.Validation;
+using System.Threading;
 
 namespace DesktopClient.ViewModel
 {
@@ -77,7 +78,7 @@ namespace DesktopClient.ViewModel
         }
 
         [RelayCommand]
-        private async Task OpenConnectionAsync(PasswordBox? passwordBox)
+        private async Task OpenConnectionAsync(PasswordBox? passwordBox, CancellationToken token)
         {
             ProgressService.IsTaskRunning = true;
             try
@@ -98,16 +99,17 @@ namespace DesktopClient.ViewModel
                     return;
                 }
                 Meter = new Meter(address, selectedSerialPort);
-                CommunicationState linkTest = await Meter.TestLinkAsync();
+                CommunicationState linkTest = await Meter.TestLinkAsync(token);
                 if (linkTest != CommunicationState.OK)
                 {
                     MessageBox.Show("Не удалось установить физическое соединение со счётчиком. Проверьте подключение.", "Ошибка", MessageBoxButton.OK);
                     return;
                 }
-                CommunicationState authorizationState = await Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword);
+                CommunicationState authorizationState = await Meter.OpenConnectionAsync(_selectedAccessLevel, passwordBox.SecurePassword, token);
                 if (authorizationState != CommunicationState.OK)
-                    MessageBox.Show("Не удалось выполнить авторизацию. Проверьте правильность ввода пароля.", "Ошибка", MessageBoxButton.OK);
+                    MessageBox.Show("Не удалось выполнить авторизацию. Проверьте правильность ввода пароля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+            catch (OperationCanceledException) {  }
             catch (TimeoutException)
             {
                 MessageBox.Show("Превышено время ожидания запроса.", "Ошибка", MessageBoxButton.OK);
@@ -120,6 +122,12 @@ namespace DesktopClient.ViewModel
             {
                 ProgressService.IsTaskRunning = false;
             }
+        }
+
+        [RelayCommand]
+        private void CancelConnection()
+        {
+            OpenConnectionCommand.Cancel();
         }
     }
 }
