@@ -58,16 +58,23 @@
                 IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 ItemsSource="{Binding SerialPortsNames}"
                 SelectedItem="{Binding SelectedSerialPort}" />
+            <!--  Timeout  -->
+            <TextBlock Grid.Row="4" Text="Время ожидания" />
+            <TextBox
+                Grid.Row="4"
+                Grid.Column="1"
+                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
+                Text="{Binding ConnectionTimeout}" />
             <!--  Connect button  -->
             <Button
-                Grid.Row="4"
+                Grid.Row="5"
                 Grid.Column="1"
                 Command="{Binding OpenConnectionCommand}"
                 CommandParameter="{Binding ElementName=passwordBox}"
                 Content="Соединить"
                 IsEnabled="{Binding HasErrors, Converter={StaticResource InverseBool}}" />
             <Button
-                Grid.Row="4"
+                Grid.Row="5"
                 Grid.Column="1"
                 Command="{Binding CancelConnectionCommand}"
                 CommandParameter="{Binding ElementName=passwordBox}"
