@@ -52,6 +52,7 @@
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding MeterConnectionService.TimeLeft, StringFormat='{}{0:mm\\:ss}'}" Visibility="{Binding MeterConnectionService.IsConnected, Converter={StaticResource BoolToVisibility}}" />
                     <Ellipse
                         Width="10"
                         Height="10"
