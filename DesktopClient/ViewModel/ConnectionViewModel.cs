@@ -45,7 +45,6 @@ namespace DesktopClient.ViewModel
 
         public ConnectionViewModel()
         {
-            
             // Init access levels
             AccessLevelNames = new string[] { "Пользователь", "Администратор" };
             SelectedAccessLevelName = AccessLevelNames[0];
@@ -57,7 +56,7 @@ namespace DesktopClient.ViewModel
                 SelectedSerialPort = SerialPortsNames[0];
 
             // Init timeouts
-            ConnectionTimeout = "5000";
+            _connectionTimeout = "5000";
 
             // Init Meter
             Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");

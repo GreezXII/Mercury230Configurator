@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Timers;
 
 namespace DesktopClient.Service
 {
@@ -14,13 +15,29 @@ namespace DesktopClient.Service
             set 
             { 
                 SetProperty(ref _isConnected, value);
-                Message = value ? _connectedMessage : _notConnectedMessage;
+                if (value == true)
+                {
+                    Timer.Start();
+                    Message = _connectedMessage;
+                }
+                else
+                {
+                    Timer.Stop();
+                    Message = _notConnectedMessage;
+                }
             }
         }
 
         [ObservableProperty]
         private string? _message;
+        
+        readonly Timer Timer;
 
-        public MeterConnectionService() => Message = _notConnectedMessage;
+        public MeterConnectionService()
+        {
+            Message = _notConnectedMessage;
+            Timer = new Timer(5000);
+            Timer.Elapsed += (_, _) => IsConnected = false;
+        }
     }
 }
