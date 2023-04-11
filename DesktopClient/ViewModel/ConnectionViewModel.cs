@@ -40,8 +40,7 @@ namespace DesktopClient.ViewModel
         private string _connectionTimeout;
 
         public Meter Meter { get; set; }
-        public ProgressService ProgressService { get; }
-        public MeterConnectionService MeterConnectionService { get; }
+        public MeterCommandService CommandService { get; }
 
         public ConnectionViewModel()
         {
@@ -54,14 +53,16 @@ namespace DesktopClient.ViewModel
             SerialPortsNames = SerialPort.GetPortNames();
             if (SerialPortsNames.Length > 0)
                 SelectedSerialPort = SerialPortsNames[0];
+            else
+                SelectedSerialPort = string.Empty;
 
             // Init timeouts
             _connectionTimeout = "5000";
 
             // Init Meter
             Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
-            ProgressService = App.Current.Services.GetService<ProgressService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса ProgressService.");
-            MeterConnectionService = App.Current.Services.GetService<MeterConnectionService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса MeterConnectionService.");
+            Meter.SerialPort.PortName = SelectedSerialPort;
+            CommandService = App.Current.Services.GetService<MeterCommandService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса ProgressService.");
         }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)
@@ -82,12 +83,11 @@ namespace DesktopClient.ViewModel
         [RelayCommand]
         private async Task OpenConnectionAsync(PasswordBox? passwordBox, CancellationToken token)
         {
-            ProgressService.IsTaskRunning = true;
-            try
+            await CommandService.RunCommand((Func<Task>)(async () =>
             {
-                if (Address == null)
+                if (this.Address == null)
                 {
-                    Address = string.Empty;
+                    this.Address = string.Empty;
                     return;
                 }
                 if (SelectedSerialPort == null)
@@ -95,10 +95,9 @@ namespace DesktopClient.ViewModel
                     MessageBox.Show("Не выбран Com-порт.", "Ошибка", MessageBoxButton.OK);
                     return;
                 }
-                //Meter = new Meter(address, SelectedSerialPort);
-                Meter.Address = byte.Parse(Address);
+                Meter.Address = byte.Parse((string)this.Address);
                 Meter.SerialPort.PortName = SelectedSerialPort;
-                Meter.SerialPort.Timeout = int.Parse(ConnectionTimeout);
+                Meter.SerialPort.Timeout = int.Parse((string)this.ConnectionTimeout);
                 CommunicationState linkTest = await Meter.TestLinkAsync(token);
                 if (linkTest != CommunicationState.OK)
                 {
@@ -111,21 +110,8 @@ namespace DesktopClient.ViewModel
                     MessageBox.Show("Не удалось выполнить авторизацию. Проверьте правильность ввода пароля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
-                MeterConnectionService.IsConnected = true;
-            }
-            catch (OperationCanceledException) {  }
-            catch (TimeoutException)
-            {
-                MessageBox.Show("Превышено время ожидания запроса.", "Ошибка", MessageBoxButton.OK);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK);
-            }
-            finally
-            {
-                ProgressService.IsTaskRunning = false;
-            }
+                CommandService.IsConnected = true;
+            }));
         }
 
         [RelayCommand]

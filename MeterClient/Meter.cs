@@ -195,17 +195,18 @@ namespace MeterClient
             return new ReadStoredEnergyPerPhaseResponse(inputBuffer);
 		}
 
-		/// <summary>
-		/// Read serial number and release date of meter.
-		/// </summary>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="SerialNumberAndReleaseDateResponse"/>.</returns>
-		public async Task<SerialNumberAndReleaseDateResponse> ReadSerialNumberAndReleaseDateAsync(CancellationToken token = default)
+        /// <summary>
+        /// Read serial number and release date of meter.
+        /// </summary>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns <see cref="(int serialNumber, DateTime releaseDate)"/>.</returns>
+        public async Task<(int, DateTime)> ReadSerialNumberAndReleaseDateAsync(CancellationToken token = default)
         {
-			ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SerialNumberAndReleaseDate, new byte[0]);
+			var request = new ReadSettingsRequest(Address, MeterSettings.SerialNumberAndReleaseDate, Array.Empty<byte>());
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, SerialNumberAndReleaseDateResponse.Length, token);
-            return new SerialNumberAndReleaseDateResponse(inputBuffer);
+            var response = new SerialNumberAndReleaseDateResponse(inputBuffer);
+			return (response.SerialNumber, response.ReleaseDate);
         }
 
 		/// <summary>
@@ -225,13 +226,14 @@ namespace MeterClient
 		/// Read software version of meter.
 		/// </summary>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="SoftwareVersionResponse"/>.</returns>
-		public async Task<SoftwareVersionResponse> ReadSoftwareVersionAsync(CancellationToken token = default)
+		/// <returns>A task that returns <see cref="string"/> with software version.</returns>
+		public async Task<String> ReadSoftwareVersionAsync(CancellationToken token = default)
 		{
-            ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.SoftwareVersion, new byte[0]);
+            var request = new ReadSettingsRequest(Address, MeterSettings.SoftwareVersion, new byte[0]);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, SoftwareVersionResponse.Length, token);
-            return new SoftwareVersionResponse(inputBuffer);
+            var response = new SoftwareVersionResponse(inputBuffer);
+			return response.SoftwareVersion;
 		}
 	}
 }

@@ -20,15 +20,12 @@ namespace DesktopClient.ViewModel
         [ObservableProperty]
         public ObservableObject? _selectedViewModel;
 
-        public ProgressService? ProgressService { get; }
-        public MeterConnectionService? MeterConnectionService { get; }
-
         public Meter? Meter { get; set; }
+        public MeterCommandService? CommandService { get; }
 
         public MainViewModel()
         {
-            MeterConnectionService = App.Current.Services.GetService<MeterConnectionService>();
-            ProgressService = App.Current.Services.GetService<ProgressService>();
+            CommandService = App.Current.Services.GetService<MeterCommandService>();
 
             _connectionViewModel = App.Current.Services.GetService<ConnectionViewModel>();
             _aboutMeterViewModel = App.Current.Services.GetService<AboutMeterViewModel>();

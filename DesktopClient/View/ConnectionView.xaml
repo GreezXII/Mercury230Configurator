@@ -33,14 +33,14 @@
             <TextBlock Text="Адрес счётчика" />
             <TextBox
                 Grid.Column="1"
-                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
+                IsEnabled="{Binding CommandService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 Text="{Binding Address}" />
             <!--  Access level  -->
             <TextBlock Grid.Row="1" Text="Уровень доступа" />
             <ComboBox
                 Grid.Row="1"
                 Grid.Column="1"
-                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
+                IsEnabled="{Binding CommandService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 ItemsSource="{Binding AccessLevelNames}"
                 SelectedItem="{Binding SelectedAccessLevelName}" />
             <!--  Password  -->
@@ -49,13 +49,13 @@
                 x:Name="passwordBox"
                 Grid.Row="2"
                 Grid.Column="1"
-                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}" />
+                IsEnabled="{Binding CommandService.IsTaskRunning, Converter={StaticResource InverseBool}}" />
             <!--  Com port  -->
             <TextBlock Grid.Row="3" Text="Com-порт" />
             <ComboBox
                 Grid.Row="3"
                 Grid.Column="1"
-                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
+                IsEnabled="{Binding CommandService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 ItemsSource="{Binding SerialPortsNames}"
                 SelectedItem="{Binding SelectedSerialPort}" />
             <!--  Timeout  -->
@@ -63,7 +63,7 @@
             <TextBox
                 Grid.Row="4"
                 Grid.Column="1"
-                IsEnabled="{Binding ProgressService.IsTaskRunning, Converter={StaticResource InverseBool}}"
+                IsEnabled="{Binding CommandService.IsTaskRunning, Converter={StaticResource InverseBool}}"
                 Text="{Binding ConnectionTimeout}" />
             <!--  Connect button  -->
             <Button

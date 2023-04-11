@@ -42,24 +42,24 @@
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding ProgressService.Message}" />
+                    <TextBlock Text="{Binding CommandService.CommandStatusMessage}" />
                     <ProgressBar
                         Width="200"
                         Height="20"
                         IsIndeterminate="True"
-                        Visibility="{Binding ProgressService.IsTaskRunning, Converter={StaticResource BoolToVisibility}}" />
+                        Visibility="{Binding CommandService.IsTaskRunning, Converter={StaticResource BoolToVisibility}}" />
                 </StackPanel>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding MeterConnectionService.TimeLeft, StringFormat='{}{0:mm\\:ss}'}" Visibility="{Binding MeterConnectionService.IsConnected, Converter={StaticResource BoolToVisibility}}" />
+                    <TextBlock Text="{Binding CommandService.TimeLeft, StringFormat='{}{0:mm\\:ss}'}" Visibility="{Binding CommandService.IsConnected, Converter={StaticResource BoolToVisibility}}" />
                     <Ellipse
                         Width="10"
                         Height="10"
                         Margin="5"
                         HorizontalAlignment="Right"
-                        Fill="{Binding MeterConnectionService.IsConnected, Converter={StaticResource BoolToColor}}" />
-                    <TextBlock Text="{Binding MeterConnectionService.Message}" />
+                        Fill="{Binding CommandService.IsConnected, Converter={StaticResource BoolToColor}}" />
+                    <TextBlock Text="{Binding CommandService.ConnectionStatusMessage}" />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
