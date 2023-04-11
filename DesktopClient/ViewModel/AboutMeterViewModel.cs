@@ -5,6 +5,7 @@ using MeterClient;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace DesktopClient.ViewModel
 {
@@ -19,6 +20,9 @@ namespace DesktopClient.ViewModel
         [ObservableProperty]
         private string? _softwareVersion;
 
+        [ObservableProperty]
+        private string? _location;
+
         public Meter Meter { get; }
         public MeterCommandService CommandService { get; }
 
@@ -29,13 +33,22 @@ namespace DesktopClient.ViewModel
         }
 
         [RelayCommand]
-        private async Task ReadInfoAsync()
+        private async Task ReadInfoAsync(CancellationToken token)
         {
             await CommandService.RunCommand(async () =>
             {
-                (SerialNumber, ReleaseDate) = await Meter.ReadSerialNumberAndReleaseDateAsync();
-                SoftwareVersion = await Meter.ReadSoftwareVersionAsync();
+                (SerialNumber, ReleaseDate) = await Meter.ReadSerialNumberAndReleaseDateAsync(token);
+                SoftwareVersion = await Meter.ReadSoftwareVersionAsync(token);
             });
         }
+
+        [RelayCommand]
+        private void CancelReadInfo() => ReadInfoCommand.Cancel();
+
+        [RelayCommand]
+        private async Task ReadLocationAsync(CancellationToken token) => await CommandService.RunCommand(async () => Location = await Meter.ReadLocationAsync(token));
+
+        [RelayCommand]
+        private void CancelReadLocation() => ReadLocationCommand.Cancel();
     }
 }

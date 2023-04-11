@@ -213,13 +213,14 @@ namespace MeterClient
 		/// Read location of meter.
 		/// </summary>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="LocationResponse"/>.</returns>
-		public async Task<LocationResponse> ReadLocationAsync(CancellationToken token = default)
+		/// <returns>A task that returns location string.</returns>
+		public async Task<string> ReadLocationAsync(CancellationToken token = default)
         {
-            ReadSettingsRequest request = new ReadSettingsRequest(Address, MeterSettings.Location, new byte[0]);
+            var request = new ReadSettingsRequest(Address, MeterSettings.Location, new byte[0]);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, LocationResponse.Length, token);
-            return new LocationResponse(inputBuffer);
+            var response = new LocationResponse(inputBuffer);
+			return response.Location;
         }
 
 		/// <summary>

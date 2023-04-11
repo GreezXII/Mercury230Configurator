@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Service;
 using MeterClient;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace DesktopClient.ViewModel
 {
@@ -20,12 +21,11 @@ namespace DesktopClient.ViewModel
         [ObservableProperty]
         public ObservableObject? _selectedViewModel;
 
-        public Meter? Meter { get; set; }
-        public MeterCommandService? CommandService { get; }
+        public MeterCommandService CommandService { get; }
 
         public MainViewModel()
         {
-            CommandService = App.Current.Services.GetService<MeterCommandService>();
+            CommandService = App.Current.Services.GetService<MeterCommandService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса MeterCommandService."); ;
 
             _connectionViewModel = App.Current.Services.GetService<ConnectionViewModel>();
             _aboutMeterViewModel = App.Current.Services.GetService<AboutMeterViewModel>();

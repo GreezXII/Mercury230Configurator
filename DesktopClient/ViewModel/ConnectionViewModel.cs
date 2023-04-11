@@ -115,9 +115,6 @@ namespace DesktopClient.ViewModel
         }
 
         [RelayCommand]
-        private void CancelConnection()
-        {
-            OpenConnectionCommand.Cancel();
-        }
+        private void CancelConnection() => OpenConnectionCommand.Cancel();
     }
 }
