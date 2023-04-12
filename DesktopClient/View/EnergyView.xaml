@@ -99,17 +99,38 @@
 
         <!--  By Phases  -->
         <GroupBox Grid.Column="1" Header="От сброса по фазам">
-            <StackPanel>
-                <DataGrid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <DataGrid
+                    Width="350"
+                    AutoGenerateColumns="False"
+                    CanUserResizeColumns="False"
+                    CanUserResizeRows="False"
+                    ColumnWidth="*"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding TotalEnergyPerPhase}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Тариф" />
-                        <DataGridTextColumn Header="A+ (Фаза 1)" />
-                        <DataGridTextColumn Header="A+ (Фаза 2)" />
-                        <DataGridTextColumn Header="A+ (Фаза 3)" />
+                        <DataGridTextColumn Binding="{Binding RateName}" Header="Тариф" />
+                        <DataGridTextColumn Binding="{Binding Phase1}" Header="A+ (Фаза 3)" />
+                        <DataGridTextColumn Binding="{Binding Phase2}" Header="A+ (Фаза 1)" />
+                        <DataGridTextColumn Binding="{Binding Phase3}" Header="A+ (Фаза 2)" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Width="200" Content="Прочитать" />
-            </StackPanel>
+                <Button
+                    Grid.Row="1"
+                    Width="200"
+                    Command="{Binding ReadEnergyPerPhaseCommand}"
+                    Content="Прочитать"
+                    IsEnabled="{Binding CommandService.CanStartCommand}" />
+                <Button
+                    Grid.Row="1"
+                    Width="200"
+                    Content="Отменить"
+                    Visibility="{Binding ReadEnergyPerPhaseCommand.IsRunning, Converter={StaticResource BoolToVisibility}}" />
+            </Grid>
         </GroupBox>
 
     </Grid>

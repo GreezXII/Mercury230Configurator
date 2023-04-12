@@ -9,8 +9,10 @@
     xmlns:views="clr-namespace:DesktopClient.View"
     xmlns:vm="clr-namespace:DesktopClient.ViewModel"
     Title="Конфигуратор Меркурий 230"
-    Width="800"
+    Width="820"
     Height="450"
+    MinWidth="820"
+    MinHeight="450"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <!--  Data templates for view models  -->

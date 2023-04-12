@@ -20,6 +20,7 @@ namespace DesktopClient.ViewModel
         private string _selectedMonthString = string.Empty;
         public List<string> MonthsStrings { get; set; }
         public ObservableCollection<Energy> TotalEnergy { get; }
+        public ObservableCollection<EnergyPerPhase> TotalEnergyPerPhase { get; }
         public bool[] RadioButtonsStatus { get; }
 
         Meter Meter { get; }
@@ -35,6 +36,13 @@ namespace DesktopClient.ViewModel
                 new Energy("Тариф 2"),
                 new Energy("Тариф 3"),
                 new Energy("Сумма")
+            };
+            TotalEnergyPerPhase = new ObservableCollection<EnergyPerPhase>
+            {
+                new EnergyPerPhase("Тариф 1"),
+                new EnergyPerPhase("Тариф 2"),
+                new EnergyPerPhase("Тариф 3"),
+                new EnergyPerPhase("Сумма")
             };
             MonthsStrings = new List<string>()
             {
@@ -64,23 +72,23 @@ namespace DesktopClient.ViewModel
             switch(selectedRadioButton)
             {
                 case 0:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         => await RunEnergyReading(Meter.ReadStoredEnergyFromResetAsync, token));
                     break;
                 case 1:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         => await RunEnergyReading(Meter.ReadStoredEnergyCurrentYearAsync, token));
                     break;
                 case 2:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         => await RunEnergyReading(Meter.ReadStoredEnergyPastYearAsync, token));
                     break;
                 case 3:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         => await RunEnergyReading(Meter.ReadStoredEnergyPastYearAsync, token));
                     break;
                 case 4:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         =>
                     {
                         Months selectedMonth = StringToMonth(SelectedMonthString);
@@ -92,11 +100,11 @@ namespace DesktopClient.ViewModel
                     });
                     break;
                 case 5:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         => await RunEnergyReading(Meter.ReadStoredEnergyCurrentDayAsync, token));
                     break;
                 case 6:
-                    await CommandService.RunCommand(async () 
+                    await CommandService.RunCommandAsync(async () 
                         => await RunEnergyReading(Meter.ReadStoredEnergyPastDayAsync, token));
                     break;
                 default:
@@ -107,6 +115,25 @@ namespace DesktopClient.ViewModel
 
         [RelayCommand]
         private void CancelReadEnergy() => ReadEnergyCommand.Cancel();
+
+        [RelayCommand]
+        private async Task ReadEnergyPerPhaseAsync(CancellationToken token)
+        {
+            await CommandService.RunCommandAsync(async () =>
+            {
+                var t1 = await Meter.ReadStoredEnergyPerPhasesAsync(MeterRates.Tariff1, token);
+                var t2 = await Meter.ReadStoredEnergyPerPhasesAsync(MeterRates.Tariff2, token);
+                var t3 = await Meter.ReadStoredEnergyPerPhasesAsync(MeterRates.Tariff3, token);
+                var sum = await Meter.ReadStoredEnergyPerPhasesAsync(MeterRates.Sum, token);
+                TotalEnergyPerPhase[0] = new EnergyPerPhase("Тариф 1", t1);
+                TotalEnergyPerPhase[1] = new EnergyPerPhase("Тариф 2", t2);
+                TotalEnergyPerPhase[2] = new EnergyPerPhase("Тариф 3", t3);
+                TotalEnergyPerPhase[3] = new EnergyPerPhase("Сумма", sum);
+            });
+        }
+
+        [RelayCommand]
+        private void CancelReadEnergyPerPhase() => ReadEnergyPerPhaseCommand.Cancel();
 
         private static Months StringToMonth(string selectedMonthString)
         {

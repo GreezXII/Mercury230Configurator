@@ -83,7 +83,7 @@ namespace DesktopClient.ViewModel
         [RelayCommand]
         private async Task OpenConnectionAsync(PasswordBox? passwordBox, CancellationToken token)
         {
-            await CommandService.RunCommand((Func<Task>)(async () =>
+            await CommandService.RunCommandAsync((Func<Task>)(async () =>
             {
                 if (this.Address == null)
                 {

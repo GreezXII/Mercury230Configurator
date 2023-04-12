@@ -55,7 +55,7 @@ namespace MeterClient
 		/// <returns>A task that returns <see cref="CommunicationStateResponse"/>.</returns>
 		public async Task<CommunicationState> CloseConnectionAsync(CancellationToken token = default)
         {
-            CloseConnectionRequest request = new CloseConnectionRequest(Address);
+            var request = new CloseConnectionRequest(Address);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, CommunicationStateResponse.Length, token);
             var response = new CommunicationStateResponse(inputBuffer);
@@ -74,7 +74,7 @@ namespace MeterClient
         {
             if (recordNumber < 0 || recordNumber > 9)
                 throw new InvalidRecordNumberException();
-            ReadJournalRecordRequest readJournalRecordRequest = new ReadJournalRecordRequest(Address, journal, recordNumber);
+            var readJournalRecordRequest = new ReadJournalRecordRequest(Address, journal, recordNumber);
             byte[] outputBuffer = readJournalRecordRequest.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadJournalResponse.Length, token);
             return new ReadJournalResponse(inputBuffer);
@@ -88,7 +88,7 @@ namespace MeterClient
 		/// <returns>A task that returns List of <see cref="ReadJournalResponse"/>.</returns>
 		public async Task<List<ReadJournalResponse>> ReadAllJournalRecordsAsync(MeterJournals journal, CancellationToken token = default)
         {
-            List<ReadJournalResponse> result = new List<ReadJournalResponse>();
+            var result = new List<ReadJournalResponse>();
             for (int i = 0; i < 10; i++)
             {
                 result.Add(await ReadJournalRecordAsync(journal, (byte)i, token));
@@ -119,7 +119,7 @@ namespace MeterClient
         /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
         public async Task<(double, double, double, double)> ReadStoredEnergyCurrentYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentYear, null, meterRates);
+			var request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
 			var response = new ReadStoredEnergyResponse(inputBuffer);
@@ -134,7 +134,7 @@ namespace MeterClient
         /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
         public async Task<(double, double, double, double)> ReadStoredEnergyPastYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastYear, null, meterRates);
+			var request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
             var response = new ReadStoredEnergyResponse(inputBuffer);
@@ -149,7 +149,7 @@ namespace MeterClient
         /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
         public async Task<(double, double, double, double)> ReadStoredEnergyCurrentDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentDay, null, meterRates);
+			var request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
             var response = new ReadStoredEnergyResponse(inputBuffer);
@@ -164,7 +164,7 @@ namespace MeterClient
         /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
         public async Task<(double, double, double, double)> ReadStoredEnergyPastDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastDay, null, meterRates);
+			var request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
             var response = new ReadStoredEnergyResponse(inputBuffer);
@@ -180,25 +180,26 @@ namespace MeterClient
         /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
         public async Task<(double, double, double, double)> ReadStoredEnergyByMonthAsync(MeterRates meterRates, Months month, CancellationToken token = default)
 		{
-			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.Month, month, meterRates);
+			var request = new ReadStoredEnergyRequest(Address, EnergyArrays.Month, month, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
             var response = new ReadStoredEnergyResponse(inputBuffer);
             return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
         }
 
-		/// <summary>
-		/// Read stored energy per phases for specified meter rate.
-		/// </summary>
-		/// <param name="meterRates">Defines specific rate or their sum.</param>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyPerPhaseResponse"/>.</returns>
-		public async Task<ReadStoredEnergyPerPhaseResponse> ReadStoredEnergyPerPhasesAsync(MeterRates meterRates, CancellationToken token = default)
+        /// <summary>
+        /// Read stored energy per phases for specified meter rate.
+        /// </summary>
+        /// <param name="meterRates">Defines specific rate or their sum.</param>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns tuple with three doubles that represent energy values per phase.</returns>
+        public async Task<(double, double, double)> ReadStoredEnergyPerPhasesAsync(MeterRates meterRates, CancellationToken token = default)
         {
-            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, null, meterRates);
+            var request = new ReadStoredEnergyRequest(Address, EnergyArrays.PerPhases, null, meterRates);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyPerPhaseResponse.Length, token);
-            return new ReadStoredEnergyPerPhaseResponse(inputBuffer);
+            var response = new ReadStoredEnergyPerPhaseResponse(inputBuffer);
+            return (response.Phase1, response.Phase2, response.Phase3);
 		}
 
         /// <summary>

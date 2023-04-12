@@ -85,7 +85,7 @@ namespace DesktopClient.Service
             CanStartCommand = false;
         }
 
-        public async Task RunCommand(Func<Task> function)
+        public async Task RunCommandAsync(Func<Task> function)
         {
             IsTaskRunning = true;
             try

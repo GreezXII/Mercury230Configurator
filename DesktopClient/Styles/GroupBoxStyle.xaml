@@ -4,6 +4,6 @@
         <Setter Property="Header" Value="Auto" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="Margin" Value="10,-10,10,0" />
+        <Setter Property="Margin" Value="10,-10,0,0" />
     </Style>
 </ResourceDictionary>

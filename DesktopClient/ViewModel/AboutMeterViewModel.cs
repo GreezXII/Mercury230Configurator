@@ -35,7 +35,7 @@ namespace DesktopClient.ViewModel
         [RelayCommand]
         private async Task ReadInfoAsync(CancellationToken token)
         {
-            await CommandService.RunCommand(async () =>
+            await CommandService.RunCommandAsync(async () =>
             {
                 (SerialNumber, ReleaseDate) = await Meter.ReadSerialNumberAndReleaseDateAsync(token);
                 SoftwareVersion = await Meter.ReadSoftwareVersionAsync(token);
@@ -46,7 +46,7 @@ namespace DesktopClient.ViewModel
         private void CancelReadInfo() => ReadInfoCommand.Cancel();
 
         [RelayCommand]
-        private async Task ReadLocationAsync(CancellationToken token) => await CommandService.RunCommand(async () => Location = await Meter.ReadLocationAsync(token));
+        private async Task ReadLocationAsync(CancellationToken token) => await CommandService.RunCommandAsync(async () => Location = await Meter.ReadLocationAsync(token));
 
         [RelayCommand]
         private void CancelReadLocation() => ReadLocationCommand.Cancel();
