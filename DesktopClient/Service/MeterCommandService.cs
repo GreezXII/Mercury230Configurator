@@ -4,6 +4,7 @@ using System.Windows;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Navigation;
+using System.Runtime.CompilerServices;
 
 namespace DesktopClient.Service
 {
@@ -73,7 +74,6 @@ namespace DesktopClient.Service
         public MeterCommandService()
         {
             CommandStatusMessage = taskNotRunningMessage;
-
             ConnectionStatusMessage = notConnectedMessage;
 
             ConnectionTimer = new Timer(interval);
@@ -91,6 +91,7 @@ namespace DesktopClient.Service
             try
             {
                 await function();
+                RestartTimers();
             }
             catch (OperationCanceledException) { }
             catch (TimeoutException)
@@ -105,6 +106,15 @@ namespace DesktopClient.Service
             {
                 IsTaskRunning = false;
             }
+        }
+
+        private void RestartTimers()
+        {
+            TimeLeft = TimeSpan.FromMilliseconds(interval);
+            ConnectionTimer.Stop();
+            ConnectionTimer.Start();
+            IndicationTimer.Stop();
+            IndicationTimer.Start();
         }
     }
 }
