@@ -85,12 +85,12 @@ namespace DesktopClient.Service
             CanStartCommand = false;
         }
 
-        public async Task RunCommand(Func<Task> action)
+        public async Task RunCommand(Func<Task> function)
         {
             IsTaskRunning = true;
             try
             {
-                await action();
+                await function();
             }
             catch (OperationCanceledException) { }
             catch (TimeoutException)

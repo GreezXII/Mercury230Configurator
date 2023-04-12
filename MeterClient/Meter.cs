@@ -101,85 +101,91 @@ namespace MeterClient
 		/// </summary>
 		/// <param name="meterRates">Defines specific rate or their sum.</param>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyResponse"/>.</returns>
-		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyFromResetAsync(MeterRates meterRates, CancellationToken token = default)
+		/// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
+		public async Task<(double, double, double, double)> ReadStoredEnergyFromResetAsync(MeterRates meterRates, CancellationToken token = default)
         {
-            ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.FromReset, 0x0, meterRates);
+            var request = new ReadStoredEnergyRequest(Address, EnergyArrays.FromReset, 0x0, meterRates);
             byte[] outputBuffer = request.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
-            return new ReadStoredEnergyResponse(inputBuffer);
+            var response = new ReadStoredEnergyResponse(inputBuffer);
+			return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
 		}
 
-		/// <summary>
-		/// Read stored energy in current year for specified meter rate.
-		/// </summary>
-		/// <param name="meterRates">Defines specific rate or their sum.</param>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyResponse"/>.</returns>
-		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyCurrentYearAsync(MeterRates meterRates, CancellationToken token = default)
+        /// <summary>
+        /// Read stored energy in current year for specified meter rate.
+        /// </summary>
+        /// <param name="meterRates">Defines specific rate or their sum.</param>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
+        public async Task<(double, double, double, double)> ReadStoredEnergyCurrentYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
-			return new ReadStoredEnergyResponse(inputBuffer);
-		}
+			var response = new ReadStoredEnergyResponse(inputBuffer);
+            return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
+        }
 
-		/// <summary>
-		/// Read stored energy in past year for specified meter rate.
-		/// </summary>
-		/// <param name="meterRates">Defines specific rate or their sum.</param>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyResponse"/>.</returns>
-		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyPastYearAsync(MeterRates meterRates, CancellationToken token = default)
+        /// <summary>
+        /// Read stored energy in past year for specified meter rate.
+        /// </summary>
+        /// <param name="meterRates">Defines specific rate or their sum.</param>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
+        public async Task<(double, double, double, double)> ReadStoredEnergyPastYearAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastYear, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
-			return new ReadStoredEnergyResponse(inputBuffer);
-		}
+            var response = new ReadStoredEnergyResponse(inputBuffer);
+            return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
+        }
 
-		/// <summary>
-		/// Read stored energy in current day for specified meter rate.
-		/// </summary>
-		/// <param name="meterRates">Defines specific rate or their sum.</param>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyResponse"/>.</returns>
-		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyCurrentDayAsync(MeterRates meterRates, CancellationToken token = default)
+        /// <summary>
+        /// Read stored energy in current day for specified meter rate.
+        /// </summary>
+        /// <param name="meterRates">Defines specific rate or their sum.</param>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
+        public async Task<(double, double, double, double)> ReadStoredEnergyCurrentDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.CurrentDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
-			return new ReadStoredEnergyResponse(inputBuffer);
-		}
+            var response = new ReadStoredEnergyResponse(inputBuffer);
+            return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
+        }
 
-		/// <summary>
-		/// Read stored energy in past day for specified meter rate.
-		/// </summary>
-		/// <param name="meterRates">Defines specific rate or their sum.</param>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyResponse"/>.</returns>
-		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyPastDayAsync(MeterRates meterRates, CancellationToken token = default)
+        /// <summary>
+        /// Read stored energy in past day for specified meter rate.
+        /// </summary>
+        /// <param name="meterRates">Defines specific rate or their sum.</param>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
+        public async Task<(double, double, double, double)> ReadStoredEnergyPastDayAsync(MeterRates meterRates, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.PastDay, null, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
-			return new ReadStoredEnergyResponse(inputBuffer);
-		}
+            var response = new ReadStoredEnergyResponse(inputBuffer);
+            return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
+        }
 
-		/// <summary>
-		/// Read stored energy by month for specified meter rate.
-		/// </summary>
-		/// <param name="meterRates">Defines specific rate or their sum.</param>
-		/// <param name="month">The month in which you need to get the accumulated energy.</param>
-		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadStoredEnergyPerPhaseResponse"/>.</returns>
-		public async Task<ReadStoredEnergyResponse> ReadStoredEnergyByMonthAsync(MeterRates meterRates, Months month, CancellationToken token = default)
+        /// <summary>
+        /// Read stored energy by month for specified meter rate.
+        /// </summary>
+        /// <param name="meterRates">Defines specific rate or their sum.</param>
+        /// <param name="month">The month in which you need to get the accumulated energy.</param>
+        /// <param name="token">Propagates notification that operation should be canceled.</param>
+        /// <returns>A task that returns tuple with four doubles that represent energy values.</returns>
+        public async Task<(double, double, double, double)> ReadStoredEnergyByMonthAsync(MeterRates meterRates, Months month, CancellationToken token = default)
 		{
 			ReadStoredEnergyRequest request = new ReadStoredEnergyRequest(Address, EnergyArrays.Month, month, meterRates);
 			byte[] outputBuffer = request.Create();
 			byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadStoredEnergyResponse.Length, token);
-			return new ReadStoredEnergyResponse(inputBuffer);
-		}
+            var response = new ReadStoredEnergyResponse(inputBuffer);
+            return (response.ActivePositive, response.ActiveNegative, response.ReactivePositive, response.ReactiveNegative);
+        }
 
 		/// <summary>
 		/// Read stored energy per phases for specified meter rate.

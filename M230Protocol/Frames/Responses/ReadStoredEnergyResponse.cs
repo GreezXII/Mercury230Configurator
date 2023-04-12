@@ -1,5 +1,4 @@
 ﻿using M230Protocol.Frames.Base;
-using static M230Protocol.Frames.Requests.ReadStoredEnergyRequest;
 
 namespace M230Protocol.Frames.Responses
 {

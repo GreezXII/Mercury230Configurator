@@ -1,60 +1,116 @@
-﻿<UserControl x:Class="DesktopClient.View.EnergyView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DesktopClient.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="DesktopClient.View.EnergyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:DesktopClient.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DesktopClient.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
-        <!--Total Energy-->
-        <GroupBox Header="Общая">
-            <StackPanel>
-                <DataGrid>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Тариф"/>
-                        <DataGridTextColumn Header="A+"/>
-                        <DataGridTextColumn Header="A-"/>
-                        <DataGridTextColumn Header="R+"/>
-                        <DataGridTextColumn Header="R-"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                
-                <RadioButton Content="От сброса" GroupName="EnergyRadioButtons"/>
-                <RadioButton Content="За текущий год" GroupName="EnergyRadioButtons"/>
-                <RadioButton Content="За предыдущий год" GroupName="EnergyRadioButtons"/>
-                <RadioButton GroupName="EnergyRadioButtons">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="За месяц"/>
-                        <ComboBox></ComboBox>
-                    </StackPanel>
-                </RadioButton>
-                <RadioButton Content="За текущие сутки" GroupName="EnergyRadioButtons"/>
-                <RadioButton Content="За прошедшие сутки" GroupName="EnergyRadioButtons"/>
-                <Button Content="Прочитать" Width="200"/>
 
-            </StackPanel>
+        <!--  Total Energy  -->
+        <GroupBox Header="Общая">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid
+                    Width="250"
+                    AutoGenerateColumns="False"
+                    CanUserResizeColumns="False"
+                    CanUserResizeRows="False"
+                    ColumnWidth="*"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding TotalEnergy}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding RateName}"
+                            Header="Тариф" />
+                        <DataGridTextColumn Binding="{Binding ActivePositive}" Header="A+" />
+                        <DataGridTextColumn Binding="{Binding ActiveNegative}" Header="A-" />
+                        <DataGridTextColumn Binding="{Binding ReactivePositive}" Header="R+" />
+                        <DataGridTextColumn Binding="{Binding ReactiveNegative}" Header="R-" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Row="1" Margin="10,5,10,0">
+                    <RadioButton
+                        Content="От сброса"
+                        GroupName="EnergyRadioButtons"
+                        IsChecked="{Binding RadioButtonsStatus[0]}" />
+                    <RadioButton
+                        Content="За текущий год"
+                        GroupName="EnergyRadioButtons"
+                        IsChecked="{Binding RadioButtonsStatus[1]}" />
+                    <RadioButton
+                        Content="За предыдущий год"
+                        GroupName="EnergyRadioButtons"
+                        IsChecked="{Binding RadioButtonsStatus[2]}" />
+                    <RadioButton
+                        x:Name="MonthRB"
+                        GroupName="EnergyRadioButtons"
+                        IsChecked="{Binding RadioButtonsStatus[3]}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="За месяц" />
+                            <ComboBox
+                                Width="90"
+                                IsEnabled="{Binding ElementName=MonthRB, Path=IsChecked}"
+                                ItemsSource="{Binding MonthsStrings}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton
+                        Content="За текущие сутки"
+                        GroupName="EnergyRadioButtons"
+                        IsChecked="{Binding RadioButtonsStatus[4]}" />
+                    <RadioButton
+                        Content="За прошедшие сутки"
+                        GroupName="EnergyRadioButtons"
+                        IsChecked="{Binding RadioButtonsStatus[5]}" />
+                </StackPanel>
+                <Button
+                    Grid.Row="2"
+                    Width="200"
+                    Command="{Binding ReadEnergyCommand}"
+                    Content="Прочитать"
+                    IsEnabled="{Binding CommandService.CanStartCommand}" />
+                <Button
+                    Grid.Row="2"
+                    Width="200"
+                    Command="{Binding CancelReadEnergyCommand}"
+                    Content="Отменить"
+                    Visibility="{Binding ReadEnergyCommand.IsRunning, Converter={StaticResource BoolToVisibility}}" />
+
+            </Grid>
         </GroupBox>
-        
-        <!--By Phases-->
-        <GroupBox Header="От сброса по фазам" Grid.Column="1">
+
+        <!--  By Phases  -->
+        <GroupBox Grid.Column="1" Header="От сброса по фазам">
             <StackPanel>
                 <DataGrid>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Тариф"/>
-                        <DataGridTextColumn Header="A+ (Фаза 1)"/>
-                        <DataGridTextColumn Header="A+ (Фаза 2)"/>
-                        <DataGridTextColumn Header="A+ (Фаза 3)"/>
+                        <DataGridTextColumn Header="Тариф" />
+                        <DataGridTextColumn Header="A+ (Фаза 1)" />
+                        <DataGridTextColumn Header="A+ (Фаза 2)" />
+                        <DataGridTextColumn Header="A+ (Фаза 3)" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Content="Прочитать" Width="200"/>
+                <Button Width="200" Content="Прочитать" />
             </StackPanel>
         </GroupBox>
-        
+
     </Grid>
 </UserControl>
