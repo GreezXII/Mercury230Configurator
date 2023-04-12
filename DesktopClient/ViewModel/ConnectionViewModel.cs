@@ -46,8 +46,14 @@ namespace DesktopClient.ViewModel
 
         public ConnectionViewModel()
         {
+            // Init services
             Settings = App.Current.Services.GetService<SettingsService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
+            Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
+            CommandService = App.Current.Services.GetService<MeterCommandService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса ProgressService.");
+
+            // Init address
             Address = Settings.Address;
+
             // Init access levels
             AccessLevelNames = new string[] { "Пользователь", "Администратор" };
             SelectedAccessLevelName = Settings.AccessLevel;
@@ -61,14 +67,10 @@ namespace DesktopClient.ViewModel
                 SelectedSerialPort = SerialPortsNames[0];
             else
                 SelectedSerialPort = string.Empty;
+            Meter.SerialPort.PortName = SelectedSerialPort;
 
             // Init timeouts
             _connectionTimeout = Settings.Timeout;
-
-            // Init Meter
-            Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
-            Meter.SerialPort.PortName = SelectedSerialPort;
-            CommandService = App.Current.Services.GetService<MeterCommandService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса ProgressService.");
         }
 
         private static void SetMeterAccessLevel(ref MeterAccessLevels field, string? level)
