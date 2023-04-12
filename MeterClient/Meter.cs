@@ -2,6 +2,7 @@
 using M230Protocol.Exceptions;
 using M230Protocol.Frames.Requests;
 using M230Protocol.Frames.Responses;
+using System.Globalization;
 using System.Security;
 
 namespace MeterClient
@@ -68,16 +69,17 @@ namespace MeterClient
 		/// <param name="journal">Type of journal.</param>
 		/// <param name="recordNumber">Serial number of record in journal. Should be in 0...9 range.</param>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns <see cref="ReadJournalResponse"/>.</returns>
+		/// <returns>A task that returns tuple with start time and end time.</returns>
 		/// <exception cref="InvalidRecordNumberException"></exception>
-		public async Task<ReadJournalResponse> ReadJournalRecordAsync(MeterJournals journal, byte recordNumber, CancellationToken token = default)
+		public async Task<(DateTime, DateTime)> ReadJournalRecordAsync(MeterJournals journal, byte recordNumber, CancellationToken token = default)
         {
             if (recordNumber < 0 || recordNumber > 9)
                 throw new InvalidRecordNumberException();
             var readJournalRecordRequest = new ReadJournalRecordRequest(Address, journal, recordNumber);
             byte[] outputBuffer = readJournalRecordRequest.Create();
             byte[] inputBuffer = await SerialPort.GetResponseAsync(outputBuffer, ReadJournalResponse.Length, token);
-            return new ReadJournalResponse(inputBuffer);
+            var result = new ReadJournalResponse(inputBuffer);
+            return (result.StartTime, result.EndTime);
         }
 
 		/// <summary>
@@ -85,15 +87,15 @@ namespace MeterClient
 		/// </summary>
 		/// <param name="journal">Type of journal.</param>
 		/// <param name="token">Propagates notification that operation should be canceled.</param>
-		/// <returns>A task that returns List of <see cref="ReadJournalResponse"/>.</returns>
-		public async Task<List<ReadJournalResponse>> ReadAllJournalRecordsAsync(MeterJournals journal, CancellationToken token = default)
+		/// <returns>A task that returns a list of tuples consists of start time and end time.</returns>
+		public async Task<List<(DateTime, DateTime)>> ReadAllJournalRecordsAsync(MeterJournals journal, CancellationToken token = default)
         {
-            var result = new List<ReadJournalResponse>();
+            var result = new List<(DateTime, DateTime)>();
             for (int i = 0; i < 10; i++)
             {
                 result.Add(await ReadJournalRecordAsync(journal, (byte)i, token));
             }
-            return result;
+            return result.OrderBy(r => r.Item1).ToList();
         }
 
 		/// <summary>

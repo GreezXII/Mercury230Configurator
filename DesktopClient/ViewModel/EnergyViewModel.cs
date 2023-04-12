@@ -69,7 +69,7 @@ namespace DesktopClient.ViewModel
         private async Task ReadEnergyAsync(CancellationToken token)
         {
             var selectedRadioButton = Array.IndexOf(RadioButtonsStatus, true);
-            switch(selectedRadioButton)
+            switch (selectedRadioButton)
             {
                 case 0:
                     await CommandService.RunCommandAsync(async () 

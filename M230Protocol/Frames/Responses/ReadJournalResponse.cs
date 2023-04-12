@@ -5,17 +5,16 @@ namespace M230Protocol.Frames.Responses
     public class ReadJournalResponse : Response
     {
         public const int Length = 15;
-        /// <summary>
-        /// Records of an event journal.
-        /// </summary>
-        public List<DateTime> Records { get; private set; } = new List<DateTime>();
+        public DateTime StartTime { get; private set; }
+        public DateTime EndTime { get; private set; }
+
         public ReadJournalResponse(byte[] response) : base(response)
         {
             byte[] buffer = new byte[6];
             Array.Copy(response, 1, buffer, 0, buffer.Length);
-            Records.Add(ParseDateTime(buffer));
+            StartTime = ParseDateTime(buffer);
             Array.Copy(response, 7, buffer, 0, buffer.Length);
-            Records.Add(ParseDateTime(buffer));
+            EndTime = ParseDateTime(buffer);
         }
         /// <summary>
         /// Create DateTime from byte array.
@@ -26,7 +25,7 @@ namespace M230Protocol.Frames.Responses
         {
             byte year = ByteToHexByte(buffer[5]);
             if (year == 0)
-                return default(DateTime);
+                return default;
             byte month = ByteToHexByte(buffer[4]);
             byte day = ByteToHexByte(buffer[3]);
             byte hour = ByteToHexByte(buffer[2]);

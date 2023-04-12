@@ -35,49 +35,49 @@ namespace Tests
         [TestMethod]
         public async Task ReadJournalRecords_OnOff()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_Phase1OnOff_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1OnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1OnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_Phase2OnOff_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase2OnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase2OnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_Phase3OnOff_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase3OnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase3OnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_Phase1CurrentOnOff_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1CurrentOnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase1CurrentOnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_Phase2CurrentOnOff_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase2CurrentOnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase2CurrentOnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_Phase3CurrentOnOff_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase3CurrentOnOff);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.Phase3CurrentOnOff);
         }
 
         [TestMethod]
         public async Task ReadJournalRecord_OpeningClosing_Success()
         {
-            List<ReadJournalResponse> result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OpeningClosing);
+            var result = await Meter.ReadAllJournalRecordsAsync(MeterJournals.OpeningClosing);
         }
 
         // TODO: add to test separate rates?
