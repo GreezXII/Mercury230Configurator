@@ -12,6 +12,7 @@ using System.Windows;
 using System.ComponentModel.DataAnnotations;
 using DesktopClient.Helpers.Validation;
 using System.Threading;
+using System.Linq;
 
 namespace DesktopClient.ViewModel
 {
@@ -39,25 +40,30 @@ namespace DesktopClient.ViewModel
         [ObservableProperty, NotifyDataErrorInfo, MinLength(2), Required, Digits]
         private string _connectionTimeout;
 
-        public Meter Meter { get; set; }
+        Meter Meter { get; set; }
+        SettingsService Settings { get; }
         public MeterCommandService CommandService { get; }
 
         public ConnectionViewModel()
         {
+            Settings = App.Current.Services.GetService<SettingsService>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
+            Address = Settings.Address;
             // Init access levels
             AccessLevelNames = new string[] { "Пользователь", "Администратор" };
-            SelectedAccessLevelName = AccessLevelNames[0];
-            _selectedAccessLevel = MeterAccessLevels.User;
+            SelectedAccessLevelName = Settings.AccessLevel;
+            SetMeterAccessLevel(ref _selectedAccessLevel, SelectedAccessLevelName);
 
             // Init serial ports
             SerialPortsNames = SerialPort.GetPortNames();
-            if (SerialPortsNames.Length > 0)
+            if (Settings.ComPortName != null && SerialPortsNames.Any(Settings.ComPortName.Contains))
+                SelectedSerialPort = Settings.ComPortName;
+            else if (SerialPortsNames.Length > 0)
                 SelectedSerialPort = SerialPortsNames[0];
             else
                 SelectedSerialPort = string.Empty;
 
             // Init timeouts
-            _connectionTimeout = "5000";
+            _connectionTimeout = Settings.Timeout;
 
             // Init Meter
             Meter = App.Current.Services.GetService<Meter>() ?? throw new NullReferenceException("Не удалось создать экземпляр класса Meter.");
